@@ -1,4 +1,6 @@
+import 'package:consule_medical_store/Auth/SignUp.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
+import 'package:consule_medical_store/Home/Home.dart';
 import 'package:flutter/material.dart';
 
 class Login_Screen extends StatefulWidget {
@@ -22,14 +24,15 @@ class _Login_ScreenState extends State<Login_Screen> {
 
   bool _obscureText = true;
 
-  bool validate() {
-    final form = _formKey.currentState;
-    form.save();
-    if (form.validate()) {
-      form.save();
-      return true;
-    } else {
-      return null;
+  void Validate()
+  {
+    if(_formKey.currentState.validate())
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>Home()));
+    else{
+      print("data must be filled");
     }
   }
 
@@ -38,7 +41,9 @@ class _Login_ScreenState extends State<Login_Screen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
+      body:
+        SingleChildScrollView(
+        child:Stack(
         children: [
           Image(
             image:AssetImage("lib/assets/images/background.png"),
@@ -61,11 +66,11 @@ class _Login_ScreenState extends State<Login_Screen> {
               buildLoginPageForm(),
         ],
       ),
-    );
+    ));
   }
   Widget buildLoginPageForm() {
     double height = MediaQuery.of(context).size.height;
-    return Padding(
+    return  Padding(
       padding: const EdgeInsets.fromLTRB(30, 125, 30, 0),
       child: Form(
         key: _formKey,
@@ -88,6 +93,19 @@ class _Login_ScreenState extends State<Login_Screen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+
+                SizedBox(
+                  height: height / 30,
+                ),
+                SizedBox(
+                  height: height / 30,
+                ),
+                SizedBox(
+                  height: height / 30,
+                ),
+                SizedBox(
+                  height: height / 30,
+                ),
                 SizedBox(
                   height: height / 30,
                 ),
@@ -109,14 +127,14 @@ class _Login_ScreenState extends State<Login_Screen> {
                     child:
                     Row(
                       children: [
-                        Text('New User ? ',style: TextStyle(color: Colors.black, fontWeight:FontWeight.w200),),
-                        Text(' Sign Up',style: TextStyle(color: Colors.blue, fontWeight:FontWeight.w200),),
+                        Text('New User ? ',style: TextStyle(color: Colors.black45, fontWeight:FontWeight.w200),),
+                        Text(' Sign Up',style: TextStyle(color: Colors.pink, fontWeight:FontWeight.w200),),
                       ],
                     ),
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>Splash_Screen()));
+                          MaterialPageRoute(builder: (context) =>SignUp()));
                     },),
                 )
               ],
@@ -130,7 +148,6 @@ class _Login_ScreenState extends State<Login_Screen> {
     return Column(
         children:[ TextFormField(
         decoration: InputDecoration(
-    hintText: "ash@gmail.com",
     labelText: "Email Address",
     ),
     controller: emailController,
@@ -190,26 +207,20 @@ class _Login_ScreenState extends State<Login_Screen> {
         },)),
     );
   }
-  Widget buildLoginButton() {
-    return InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Splash_Screen(),),
-          );
-        },
-        child: RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: "have got an account" + "? ",
-              ),
-              TextSpan(
-                text: "login",
-              ),
-            ],
+   Widget buildLoginButton(){
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: FlatButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Colors.black12)
           ),
-        ));
-  }
+          height: 50,
+          minWidth: 400,
+          color: Colors.pink,
+          onPressed: Validate,
+          child:
+          Text("login ", style: TextStyle(color: Colors.white))),
+    );
+   }
 }
