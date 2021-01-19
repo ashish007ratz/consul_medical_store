@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 class Home extends StatefulWidget {
   @override
   final String title;
@@ -9,6 +11,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   @override
+
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -104,6 +107,8 @@ class _HomeState extends State<Home> {
     ));
   }
   Widget UploadPrescription(){
+  }
+  Widget CarouselSlider(){
 
   }
 }
