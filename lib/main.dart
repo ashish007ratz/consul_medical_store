@@ -6,6 +6,6 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
       debugShowCheckedModeBanner: true,
-      title: "Consule Medical Store", home: Carousel()));
+      title: "Consule Medical Store", home: Home()));
 }
 

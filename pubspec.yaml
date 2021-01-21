@@ -49,6 +49,16 @@ flutter:
    - lib/assets/images/logo.png
    - lib/assets/images/background.png
    - lib/assets/images/Splash2.png
+   - lib/assets/images/Active (3).png
+   - lib/assets/images/Active(6).png
+   - lib/assets/images/Active (5).png
+   - lib/assets/images/product1.png
+   - lib/assets/images/Active (4).png
+   - lib/assets/images/product2.png
+
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
