@@ -144,20 +144,23 @@ class Item1 extends StatefulWidget {
 class _Item1State extends State<Item1> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white
-      ),
-      child: Column(
-        children: <Widget>[
-          Image.asset(
-            'lib/assets/images/Active (3).png',
+    return Image.asset(
+        'lib/assets/images/Active (3).png');
 
-            fit: BoxFit.cover,
-          )
-        ],
-      ),
-    );
+        //   Container(
+    //   decoration: BoxDecoration(
+    //     color: Colors.white
+    //   ),
+    //   child: Column(
+    //     children: <Widget>[
+    //       Image.asset(
+    //         'lib/assets/images/Active (3).png',
+    //
+    //         fit: BoxFit.cover,
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }
 class Item2 extends StatefulWidget {
@@ -390,7 +393,7 @@ class Product2 extends StatelessWidget {
           ),
           Padding(padding: const EdgeInsets.fromLTRB(30, 50, 30, 30),
             child:
-            Image.asset("lib/assets/images/product1.png"),
+            Image.asset("lib/assets/images/product2.png"),
           ),
           Center(
             child: Padding(
