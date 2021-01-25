@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
+import 'package:consule_medical_store/Style/Style.dart';
 class Home extends StatefulWidget {
   @override
   final String title;
@@ -35,39 +36,20 @@ class _HomeState extends State<Home> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       endDrawerEnableOpenDragGesture: true,
       endDrawer: DrawerList(),
       appBar: Appbar(),
-    //   body: Container(
-    //     padding: EdgeInsets.all(16),
-    //   child: Align(
-    //   alignment: Alignment.topCenter,
-    //   child: Banner(
-    //     location: BannerLocation.topEnd,
-    //     color: Colors.red,
-    //     child: Container(
-    //       height: 200,
-    //       width: 200,
-    //       child: Image.network(
-    //         'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg',
-    //         fit: BoxFit.cover,
-    //       ),
-    //     ),
-    //   ),
-    //   ),
-    // )
                body:  SingleChildScrollView(
                 child: Container(
              width: width,
-               child: Column(
-               children: <Widget>[
-                      carousel(),
-                      Container(
-                          child: Column(
-                  children: <Widget>[
-                     ]         ,
-                ),
-                             ),
+                    child: Column(
+                      children: <Widget>[
+                        carousel(),
+                        SizedBox(
+                          height: height / 30,
+                        ),
+                        Product(),
                       Padding(
                              padding: const EdgeInsets.all(15.0),
                          child: BrandLogo(),
@@ -84,22 +66,44 @@ class _HomeState extends State<Home> {
     );
   }
     Widget DrawerList(){
+      double height = MediaQuery.of(context).size.height;
+      double width = MediaQuery.of(context).size.width;
     return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Text('Drawer Header'),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+          // DrawerHeader(
+          //   child: Text('Personal info'),
+          //   decoration: BoxDecoration(
+          //     color: Colors.red,
+          //   ),
+          // ),
+          SizedBox(
+            height: height / 30,
+          ),
+          Material(
+            child:InkWell(onTap: (){},
+              child: Column(
+                children: [
+                  Container(
+                      height: height/5,
+                      width: width,
+
+                      child:CircleAvatar( backgroundImage: AssetImage("lib/assets/images/logo.png")
+                      ),
+          ),
+                  Text("Ashish Raturi",style: TextStyle(color: Colors.black)),
+                ],
+              ),
+            )),
+          SizedBox(
+            height: height / 30,
           ),
           ListTile(
-            title: Text('Item 1'),
+            leading: CircleAvatar(
+      backgroundImage: AssetImage("lib/assets/images/logo.png"),
+      ),
+            title: Text('Profile'),
             onTap: () {
               // Update the state of the app
               // ...
@@ -108,12 +112,46 @@ class _HomeState extends State<Home> {
             },
           ),
           ListTile(
-            title: Text('Item 2'),
+            leading: Icon(Icons.card_travel_outlined,color: Colors.black,) ,
+            title: Text('Cart',style: TextStyle(color: Colors.black),),
             onTap: () {
               // Update the state of the app
               // ...
               // Then close the drawer
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.add_moderator,color: Colors.black,) ,
+            title: Text('My Order',style: TextStyle(color: Colors.black),),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.info,color: Colors.black,) ,
+            title: Text('About us',style: TextStyle(color: Colors.black),),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          SizedBox(
+            height: height / 2.3444,
+          ),
+
+          ListTile(
+            leading: Icon(Icons.logout,color: Colors.black,) ,
+            title: Text('Logout',style: TextStyle(color: Colors.black),),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>Splash_Screen()));
             },
           ),
         ],
@@ -155,6 +193,22 @@ class _HomeState extends State<Home> {
             onPressed: () => Scaffold.of(context).openEndDrawer(),
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,),),
       ],
+    );
+    }
+    Widget Product(){
+      double width = MediaQuery.of(context).size.width;
+      double height = MediaQuery.of(context).size.height;
+    return Container(
+      height: height/2,
+      width:width/1.2,
+      child: ListView(
+        children: [
+
+          Product1(),
+          Product2(),
+        ],
+        scrollDirection: Axis.horizontal,
+      ),
     );
     }
     Widget carousel(){
@@ -378,7 +432,7 @@ class _Item3State extends State<Item3> {
           Image.asset(
             'lib/assets/images/Active (4).png',
             height: 180,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           )
         ],
       ),
@@ -411,111 +465,75 @@ class _Item4State extends State<Item4> {
 class Product1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
-
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.red)
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.red)
+      ),
+      height: height/2,
+      width: width/1.2,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: height / 30,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
+              Container(
+                height: height/4,
+                child: Image.asset("lib/assets/images/product2.png"),
               ),
-              height: 23,
-              child: Column(
-                children: [
-                  Container(
-                    child: Text("Top selling medicines in India" ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(padding: const EdgeInsets.fromLTRB(30, 50, 30, 30),
-            child:
-            Image.asset("lib/assets/images/product2.png"),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top:75),
-              child: Container(
+              Container(
                 decoration: BoxDecoration(
-                  color: Colors.black12,
+                  color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 height: 20,
                 width: 260,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 280, 30, 30),
-            child: Container(
-              child: Row(
-                children: [
-                  Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                  Text("150",style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 90),
-                    child: Text("Available : ",style: TextStyle(color: Colors.black45)),
-                  ),
-                  Text("300",style: TextStyle(color: Colors.black)),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 310, 30, 30),
-            child: Container(child: Text("Category : ",style: TextStyle(color: Colors.black45))),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 330, 30, 30),
-            child: Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0),
-                    child: Container(child: Text("Manual Oxygen Device",style: TextStyle(color: Colors.black,fontSize: 17))),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 360, 30, 30),
-            child: Container(
-              child: Row(
-                children: [
-                  Text("150 INR",style: TextStyle(color: Colors.red)),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(160, 350, 30, 30),
-            child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.black12)
+             Row(
+               children: [
+                 Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                 Text("150",style: TextStyle(color: Colors.black)),
+                 Padding(
+                   padding: const EdgeInsets.only(left: 110),
+                   child: Text("Available : ",style: TextStyle(color: Colors.black45)),
+                 ),
+                 Text("300",style: TextStyle(color: Colors.black)),
+               ],
+             ),
+              Text("Category",style: TextStyle(color: Colors.black45)),
+              Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 80),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.black12)
+                          ),
+                          height: 30,
+                          minWidth: 100,
+                          color: Colors.red,
+                          onPressed:()=>Splash_Screen ,
+                          child:
+                          Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                    ),
+                  ],
                 ),
-                height: 30,
-                minWidth: 100,
-                color: Colors.red,
-                onPressed:()=>Splash_Screen ,
-                child:
-                Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -523,111 +541,76 @@ class Product1 extends StatelessWidget {
 class Product2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.red)
+      ),
+      height: height/2,
+      width: width/1.2,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.red)
+              SizedBox(
+                height: height / 30,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
+              Container(
+                height: height/4,
+                child: Image.asset("lib/assets/images/product1.png"),
               ),
-              height: 23,
-              child: Column(
-                children: [
-                  Container(
-                    child: Text("Top selling medicines in India" ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(padding: const EdgeInsets.fromLTRB(30, 50, 30, 30),
-            child:
-            Image.asset("lib/assets/images/product1.png"),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top:75),
-              child: Container(
+              Container(
                 decoration: BoxDecoration(
-                  color: Colors.black12,
+                  color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 height: 20,
                 width: 260,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 280, 30, 30),
-            child: Container(
-              child: Row(
+              Row(
                 children: [
                   Text("Sold : ",style: TextStyle(color: Colors.black45)),
                   Text("150",style: TextStyle(color: Colors.black)),
                   Padding(
-                    padding: const EdgeInsets.only(left: 90),
+                    padding: const EdgeInsets.only(left: 110),
                     child: Text("Available : ",style: TextStyle(color: Colors.black45)),
                   ),
                   Text("300",style: TextStyle(color: Colors.black)),
                 ],
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 310, 30, 30),
-            child: Container(child: Text("Category : ",style: TextStyle(color: Colors.black45))),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 330, 30, 30),
-            child: Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0),
-                    child: Container(child: Text("Manual Oxygen Device",style: TextStyle(color: Colors.black,fontSize: 17))),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 360, 30, 30),
-            child: Container(
-              child: Row(
-                children: [
-                  Text("150 INR",style: TextStyle(color: Colors.red)),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(160, 350, 30, 30),
-            child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.black12)
+              Text("Category",style: TextStyle(color: Colors.black45)),
+              Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 80),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.black12)
+                          ),
+                          height: 30,
+                          minWidth: 100,
+                          color: Colors.red,
+                          onPressed:()=>Splash_Screen ,
+                          child:
+                          Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                    ),
+                  ],
                 ),
-                height: 30,
-                minWidth: 100,
-                color: Colors.red,
-                onPressed:()=>Splash_Screen ,
-                child:
-                Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
