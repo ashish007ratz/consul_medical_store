@@ -21,13 +21,13 @@ class _HomeState extends State<Home> {
     Product1(),
     Product2(),
   ];
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
-  }
+  // List<T> map<T>(List list, Function handler) {
+  //   List<T> result = [];
+  //   for (var i = 0; i < list.length; i++) {
+  //     result.add(handler(i, list[i]));
+  //   }
+  //   return result;
+  // }
 
 
   @override
@@ -361,20 +361,6 @@ class _Item1State extends State<Item1> {
     return Image.asset(
         'lib/assets/images/Active (3).png');
 
-    //   Container(
-    //   decoration: BoxDecoration(
-    //     color: Colors.white
-    //   ),
-    //   child: Column(
-    //     children: <Widget>[
-    //       Image.asset(
-    //         'lib/assets/images/Active (3).png',
-    //
-    //         fit: BoxFit.cover,
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 }
 class Item2 extends StatefulWidget {
