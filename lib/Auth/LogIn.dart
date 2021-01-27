@@ -1,3 +1,4 @@
+import 'package:consule_medical_store/Auth/ForgrtPasssword.dart';
 import 'package:consule_medical_store/Auth/SignUp.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:consule_medical_store/Home/Home.dart';
@@ -121,7 +122,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                 buildLoginButton(),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(100, 15, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(80, 15, 0, 0),
                   child:
                   TextButton(
                     child:
@@ -203,7 +204,7 @@ class _Login_ScreenState extends State<Login_Screen> {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>Splash_Screen()));
+              MaterialPageRoute(builder: (context) =>Forget_Password()));
         },)),
     );
   }
@@ -220,7 +221,7 @@ class _Login_ScreenState extends State<Login_Screen> {
           color: Colors.pink,
           onPressed: Validate,
           child:
-          Text("login ", style: TextStyle(color: Colors.white))),
+          Text("Sign In ", style: TextStyle(color: Colors.white))),
     );
    }
 }

@@ -1,3 +1,4 @@
+import 'package:consule_medical_store/Auth/LogIn.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class _SignUpState extends State<SignUp> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>Splash_Screen()));
+              builder: (context) =>Login_Screen()));
     else{
       print("data must be filled");
     }
@@ -130,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>Splash_Screen()));
+                          MaterialPageRoute(builder: (context) =>Login_Screen()));
                     },),
                 )
               ],
@@ -226,7 +227,7 @@ class _SignUpState extends State<SignUp> {
           color: Colors.pink,
           onPressed: Validate,
           child:
-          Text("SignUp ", style: TextStyle(color: Colors.white))),
+          Text("Sign Up ", style: TextStyle(color: Colors.white))),
     );
   }
 }

@@ -1,6 +1,9 @@
-import 'package:consule_medical_store/Auth/Splash.dart';
-import 'package:consule_medical_store/Home/Upload_Prescription.dart';
+import 'file:///F:/New%20Folder%20(2)/flutter%20projects/consule_medical_store/lib/Products/Cart.dart';
+import 'package:consule_medical_store/Home/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:consule_medical_store/Auth/Splash.dart';
+import 'package:consule_medical_store/Home/Search_Bar.dart';
+import 'package:consule_medical_store/Home/Upload_Prescription.dart';
 class Product_List extends StatefulWidget {
   @override
   _Product_ListState createState() => _Product_ListState();
@@ -19,6 +22,7 @@ class _Product_ListState extends State<Product_List> {
         child: ListView(
           children: [
             Product2(),
+            Product1()
           ],
         )
       )
@@ -135,15 +139,26 @@ class _Product_ListState extends State<Product_List> {
               Text("Upload Prescription", style:
               TextStyle(color: Colors.white))],),),
         FlatButton(
-          height: 50,
-          minWidth: 10,
-          onPressed: UploadPrescription,
-          child:  Icon(Icons.search_rounded),),
+            height: 50,
+            minWidth: 10,
+            child:  Icon(Icons.search_rounded),
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>Search_Bar()),
+              );
+            }),
         FlatButton(
-          height: 50,
-          minWidth: 10,
-          onPressed: UploadPrescription,
-          child:  Icon(Icons.card_travel_outlined),),
+            height: 50,
+            minWidth: 10,
+            child:  Icon(Icons.card_travel_outlined),
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>Shopping_Cart()),
+              );
+            }
+        ),
         Builder(
           builder: (BuildContext context) => IconButton(
             icon: Icon(Icons.ac_unit,color: Colors.black,),
@@ -152,85 +167,6 @@ class _Product_ListState extends State<Product_List> {
       ],
     );
   }
-  Widget UploadPrescription (){
-       Container(
-       );
-  }
-}
-class Product2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.red)
-      ),
-      height: height/2,
-      width: width/1.2,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
-        child: Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
 
-              SizedBox(
-                height: height / 30,
-              ),
-              Container(
-                height: height/4,
-                child: Image.asset("lib/assets/images/product1.png"),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 20,
-                width: 260,
-              ),
-              Row(
-                children: [
-                  Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                  Text("150",style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 110),
-                    child: Text("Available : ",style: TextStyle(color: Colors.black45)),
-                  ),
-                  Text("300",style: TextStyle(color: Colors.black)),
-                ],
-              ),
-              Text("Category",style: TextStyle(color: Colors.black45)),
-              Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Row(
-                  children: [
-                    Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 80),
-                      child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.black12)
-                          ),
-                          height: 30,
-                          minWidth: 100,
-                          color: Colors.red,
-                          onPressed:()=>Splash_Screen ,
-                          child:
-                          Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
+

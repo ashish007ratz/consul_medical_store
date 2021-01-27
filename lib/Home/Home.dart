@@ -1,7 +1,11 @@
+import 'file:///F:/New%20Folder%20(2)/flutter%20projects/consule_medical_store/lib/Products/Cart.dart';
+import 'package:consule_medical_store/Home/Profile.dart';
+import 'package:consule_medical_store/Products/Favorte.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
-import 'package:consule_medical_store/Style/Style.dart';
+import 'package:consule_medical_store/Home/Search_Bar.dart';
+import 'package:consule_medical_store/Home/Upload_Prescription.dart';
 class Home extends StatefulWidget {
   @override
   final String title;
@@ -72,12 +76,6 @@ class _HomeState extends State<Home> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          // DrawerHeader(
-          //   child: Text('Personal info'),
-          //   decoration: BoxDecoration(
-          //     color: Colors.red,
-          //   ),
-          // ),
           SizedBox(
             height: height / 30,
           ),
@@ -108,7 +106,10 @@ class _HomeState extends State<Home> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>Profile_Data()));
             },
           ),
           ListTile(
@@ -132,8 +133,8 @@ class _HomeState extends State<Home> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.info,color: Colors.black,) ,
-            title: Text('About us',style: TextStyle(color: Colors.black),),
+            leading: Icon(Icons.home_work_outlined,color: Colors.black),
+            title: Text('Address'),
             onTap: () {
               // Update the state of the app
               // ...
@@ -141,8 +142,20 @@ class _HomeState extends State<Home> {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            leading: Icon(Icons.favorite,color: Colors.red) ,
+            title: Text('Favorite',style: TextStyle(color: Colors.black),),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Favorte_items()));
+            },
+          ),
           SizedBox(
-            height: height / 2.3444,
+            height: height / 3.4,
           ),
 
           ListTile(
@@ -172,7 +185,11 @@ class _HomeState extends State<Home> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          onPressed: UploadPrescription,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Upload_Prescription()));
+          },
           child:Row(
             children:[
               Text("Upload Prescription", style:
@@ -180,13 +197,24 @@ class _HomeState extends State<Home> {
         FlatButton(
           height: 50,
           minWidth: 10,
-          onPressed: UploadPrescription,
-          child:  Icon(Icons.search_rounded),),
+          child:  Icon(Icons.search_rounded),
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>Search_Bar()),
+            );
+          }),
         FlatButton(
           height: 50,
           minWidth: 10,
-          onPressed: UploadPrescription,
-          child:  Icon(Icons.card_travel_outlined),),
+            child:  Icon(Icons.card_travel_outlined),
+          onPressed: (){
+      Navigator.push(
+      context,
+             MaterialPageRoute(builder: (context) =>Shopping_Cart()),
+          );
+          }
+          ),
         Builder(
           builder: (BuildContext context) => IconButton(
             icon: Icon(Icons.ac_unit,color: Colors.black,),
@@ -345,9 +373,6 @@ class _HomeState extends State<Home> {
       ),
     );
     }
-  UploadPrescription(){
-
-  }
 }
 class Item1 extends StatefulWidget {
   const Item1({Key key}) : super(key: key);
