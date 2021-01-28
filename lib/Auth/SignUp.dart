@@ -50,15 +50,21 @@ class _SignUpState extends State<SignUp> {
                 width: width,
               fit: BoxFit.cover,
                  ),
-              Padding(
-                  padding: const EdgeInsets.all(150.0),
-                    child: Image(
+              Container(
+                height: height/2.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image(
                     image:AssetImage("lib/assets/images/logo.png"),
-               height: 100,
-                   width: 100,
+                     height: 100,
+                         width: 100,
                       fit: BoxFit.cover,
                       ),
-                      ),
+                  ],
+                ),
+              ),
                SizedBox(
                    height: height / 30,),
                 SizedBox(height: 10,),

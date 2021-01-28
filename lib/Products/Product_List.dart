@@ -1,5 +1,8 @@
 import 'file:///F:/New%20Folder%20(2)/flutter%20projects/consule_medical_store/lib/Products/Cart.dart';
+import 'package:consule_medical_store/Home/Address.dart';
 import 'package:consule_medical_store/Home/Home.dart';
+import 'package:consule_medical_store/Home/Profile.dart';
+import 'package:consule_medical_store/Products/Favorte.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:consule_medical_store/Home/Search_Bar.dart';
@@ -62,20 +65,19 @@ class _Product_ListState extends State<Product_List> {
             ),
             title: Text('Profile'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>Profile_Data()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.card_travel_outlined,color: Colors.black,) ,
+            leading: Icon(Icons.card_travel_outlined,color: Colors.black,),
             title: Text('Cart',style: TextStyle(color: Colors.black),),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Shopping_Cart()));
             },
           ),
           ListTile(
@@ -89,17 +91,28 @@ class _Product_ListState extends State<Product_List> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.info,color: Colors.black,) ,
-            title: Text('About us',style: TextStyle(color: Colors.black),),
+            leading: Icon(Icons.home_work_outlined,color: Colors.black),
+            title: Text('Address'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => User_address()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.favorite,color: Colors.red) ,
+            title: Text('Favorite',style: TextStyle(color: Colors.black),),
             onTap: () {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Favorte_items()));
             },
           ),
           SizedBox(
-            height: height / 2.3444,
+            height: height/4,
           ),
 
           ListTile(
@@ -116,28 +129,32 @@ class _Product_ListState extends State<Product_List> {
     );
   }
   Widget Appbar(){
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return AppBar(
       backgroundColor: Colors.white,
       leading: Image(
         image:AssetImage("lib/assets/images/logo.png"),
-        height:70,
-        width: 70,
+        height:100,
+        width:100,
       ),
       actions: <Widget>[
-        FlatButton(
-          color: Colors.redAccent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+        new SizedBox(
+          width: width/2.5,
+          height: height/20,
+          child: new RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: new Text('Upload Prescription',style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Upload_Prescription()));
+            },
           ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Upload_Prescription()));
-          },
-          child:Row(
-            children:[
-              Text("Upload Prescription", style:
-              TextStyle(color: Colors.white))],),),
+        ),
         FlatButton(
             height: 50,
             minWidth: 10,
@@ -155,8 +172,7 @@ class _Product_ListState extends State<Product_List> {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>Shopping_Cart()),
-              );
+                MaterialPageRoute(builder: (context) => Shopping_Cart()),);
             }
         ),
         Builder(

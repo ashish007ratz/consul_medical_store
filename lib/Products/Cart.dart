@@ -21,7 +21,6 @@ class _Shopping_CartState extends State<Shopping_Cart> {
             child:
             Cart1(),
           )
-          //
         ],
       ),
     );

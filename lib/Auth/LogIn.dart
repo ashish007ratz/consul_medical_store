@@ -52,13 +52,19 @@ class _Login_ScreenState extends State<Login_Screen> {
             width: width,
             fit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.all(125.0),
-            child: Image(
-              image:AssetImage("lib/assets/images/logo.png"),
-              height: 150,
-              width: 150,
-              fit: BoxFit.cover,
+          Container(
+            height: height/2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                  image:AssetImage("lib/assets/images/logo.png"),
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.cover,
+                ),
+              ],
             ),
           ),
               SizedBox(
@@ -194,19 +200,17 @@ class _Login_ScreenState extends State<Login_Screen> {
   }
   Widget ForgetPassword()
   {
-    return Padding(
-      padding: const EdgeInsets.only(left:163),
-      child: Container(
-          child:
-      TextButton(
-        child:
-            Text('Forget Password ?',style: TextStyle(color: Colors.black, fontWeight:FontWeight.w200),),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>Forget_Password()));
-        },)),
-    );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+        children:[
+    TextButton(
+      child:
+          Text('Forget Password ?',style: TextStyle(color: Colors.black, fontWeight:FontWeight.w200),),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>Forget_Password()));
+      },)],);
   }
    Widget buildLoginButton(){
     return Padding(

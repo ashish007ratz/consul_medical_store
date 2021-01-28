@@ -1,6 +1,8 @@
-import 'file:///F:/New%20Folder%20(2)/flutter%20projects/consule_medical_store/lib/Products/Cart.dart';
+import 'package:consule_medical_store/Home/Address.dart';
 import 'package:consule_medical_store/Home/Profile.dart';
+import 'package:consule_medical_store/Products/Cart.dart';
 import 'package:consule_medical_store/Products/Favorte.dart';
+import 'package:consule_medical_store/Products/Product_List.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
@@ -54,6 +56,12 @@ class _HomeState extends State<Home> {
                           height: height / 30,
                         ),
                         Product(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ProductListButton(),
+                        ],
+                      ),
                       Padding(
                              padding: const EdgeInsets.all(15.0),
                          child: BrandLogo(),
@@ -99,13 +107,10 @@ class _HomeState extends State<Home> {
           ),
           ListTile(
             leading: CircleAvatar(
-      backgroundImage: AssetImage("lib/assets/images/logo.png"),
-      ),
+             backgroundImage: AssetImage("lib/assets/images/logo.png"),
+            ),
             title: Text('Profile'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -113,13 +118,12 @@ class _HomeState extends State<Home> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.card_travel_outlined,color: Colors.black,) ,
+            leading: Icon(Icons.card_travel_outlined,color: Colors.black,),
             title: Text('Cart',style: TextStyle(color: Colors.black),),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Shopping_Cart()));
             },
           ),
           ListTile(
@@ -136,10 +140,9 @@ class _HomeState extends State<Home> {
             leading: Icon(Icons.home_work_outlined,color: Colors.black),
             title: Text('Address'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => User_address()));
             },
           ),
           ListTile(
@@ -155,7 +158,7 @@ class _HomeState extends State<Home> {
             },
           ),
           SizedBox(
-            height: height / 3.4,
+            height: height/4,
           ),
 
           ListTile(
@@ -172,28 +175,32 @@ class _HomeState extends State<Home> {
     );
     }
     Widget Appbar(){
+      double height = MediaQuery.of(context).size.height;
+      double width = MediaQuery.of(context).size.width;
     return AppBar(
       backgroundColor: Colors.white,
       leading: Image(
         image:AssetImage("lib/assets/images/logo.png"),
-        height:70,
-        width: 70,
+        height:100,
+        width:100,
       ),
       actions: <Widget>[
-        FlatButton(
-          color: Colors.redAccent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+        new SizedBox(
+          width: width/2.5,
+          height: height/20,
+          child: new RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+            child: new Text('Upload Prescription',style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Upload_Prescription()));
+                  },
           ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Upload_Prescription()));
-          },
-          child:Row(
-            children:[
-              Text("Upload Prescription", style:
-              TextStyle(color: Colors.white))],),),
+        ),
         FlatButton(
           height: 50,
           minWidth: 10,
@@ -211,8 +218,7 @@ class _HomeState extends State<Home> {
           onPressed: (){
       Navigator.push(
       context,
-             MaterialPageRoute(builder: (context) =>Shopping_Cart()),
-          );
+             MaterialPageRoute(builder: (context) => Shopping_Cart()),);
           }
           ),
         Builder(
@@ -239,12 +245,25 @@ class _HomeState extends State<Home> {
       ),
     );
     }
+    Widget ProductListButton() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children:[
+          TextButton(
+            child:
+            Text('View More',style: TextStyle(color: Colors.red, fontWeight:FontWeight.w200),),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>Product_List()));
+            },)],);
+    }
     Widget carousel(){
       double width = MediaQuery.of(context).size.width;
       double height = MediaQuery.of(context).size.height;
     return CarouselSlider(
       options: CarouselOptions(
-        height: height/4,
+        height: height/3.8,
         autoPlay: true,
         autoPlayInterval: Duration(seconds: 3),
         autoPlayAnimationDuration: Duration(milliseconds: 800),
@@ -261,7 +280,7 @@ class _HomeState extends State<Home> {
         return Builder(
             builder: (BuildContext context) {
               return Container(
-                height: MediaQuery.of(context).size.height ,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: Card(
                   child: card,
@@ -492,32 +511,40 @@ class Product1 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: height / 30,
-              ),
+
               Container(
                 height: height/4,
                 child: Image.asset("lib/assets/images/product2.png"),
               ),
               Container(
+                height: height/50,
+                width: width/1.2,
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                height: 20,
-                width: 260,
               ),
-             Row(
-               children: [
-                 Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                 Text("150",style: TextStyle(color: Colors.black)),
-                 Padding(
-                   padding: const EdgeInsets.only(left: 110),
-                   child: Text("Available : ",style: TextStyle(color: Colors.black45)),
-                 ),
-                 Text("300",style: TextStyle(color: Colors.black)),
-               ],
-             ),
+              Container(
+                height: height/30,
+                width: width/1.2,
+                child: Row(
+                  children: [
+                    Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                    Text("150",style: TextStyle(color: Colors.black)),
+                    SizedBox(
+                      width: width/4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Available : ",style: TextStyle(color: Colors.black45)),
+                        Text("300",style: TextStyle(color: Colors.black)),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
               Text("Category",style: TextStyle(color: Colors.black45)),
               Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
               Padding(
@@ -533,7 +560,7 @@ class Product1 extends StatelessWidget {
                               side: BorderSide(color: Colors.black12)
                           ),
                           height: 30,
-                          minWidth: 100,
+                          minWidth: 40,
                           color: Colors.red,
                           onPressed:()=>Splash_Screen ,
                           child:
@@ -570,30 +597,34 @@ class Product2 extends StatelessWidget {
             children: [
 
               SizedBox(
-                height: height / 30,
+                height: height /90,
               ),
               Container(
                 height: height/4,
                 child: Image.asset("lib/assets/images/product1.png"),
               ),
               Container(
+                height: height/50,
+                width: width/1.2,
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                height: 20,
-                width: 260,
               ),
-              Row(
-                children: [
-                  Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                  Text("150",style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 110),
-                    child: Text("Available : ",style: TextStyle(color: Colors.black45)),
-                  ),
-                  Text("300",style: TextStyle(color: Colors.black)),
-                ],
+              Container(
+                height: height/30,
+                width: width/1.2,
+                child: Row(
+                  children: [
+                    Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                    Text("150",style: TextStyle(color: Colors.black)),
+                    SizedBox(
+                      width: width/4,
+                    ),
+                    Text("Available : ",style: TextStyle(color: Colors.black45)),
+                    Text("300",style: TextStyle(color: Colors.black)),
+                  ],
+                ),
               ),
               Text("Category",style: TextStyle(color: Colors.black45)),
               Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
@@ -610,7 +641,7 @@ class Product2 extends StatelessWidget {
                               side: BorderSide(color: Colors.black12)
                           ),
                           height: 30,
-                          minWidth: 100,
+                          minWidth: 40,
                           color: Colors.red,
                           onPressed:()=>Splash_Screen ,
                           child:

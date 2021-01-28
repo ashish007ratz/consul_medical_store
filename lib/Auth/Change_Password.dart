@@ -145,16 +145,10 @@ class _Change_PasswordState extends State<Change_Password> {
         decoration: InputDecoration(
           prefixIcon: Padding(
             padding: EdgeInsets.all(0.0),
-            child: Icon(
-              Icons.lock,
-              color: Colors.black,
-            ), // icon is 48px widget.
           ),
           hintText: "*******",
           contentPadding:
           new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20)),
           labelText: "Password",
         ),
         obscureText: _obscureText,
@@ -179,14 +173,7 @@ class _Change_PasswordState extends State<Change_Password> {
         },
         decoration: InputDecoration(
           errorStyle: TextStyle(color: Colors.black54),
-          suffixIcon: InkWell(
-            onTap: _toggle,
-            child: _obscureText
-                ? Icon(Icons.remove_red_eye, color: Colors.blue, size: 20)
-                : Icon(Icons.remove_red_eye, color: Colors.black12, size: 20),
-          ),
         ),
-        obscureText: _obscureText,
       ),
     );
   }
