@@ -1,4 +1,5 @@
 import 'package:consule_medical_store/Home/Home.dart';
+import 'package:consule_medical_store/Auth/Change_Password.dart';
 import 'package:flutter/material.dart';
 
 class OTP extends StatefulWidget {
@@ -26,7 +27,7 @@ class _OTPState extends State<OTP> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) =>Home()));
+              builder: (context) =>Change_Password()));
     else{
       print("data must be filled");
     }

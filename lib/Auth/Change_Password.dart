@@ -190,7 +190,7 @@ class _Change_PasswordState extends State<Change_Password> {
           color: Colors.pink,
           onPressed: Validate,
           child:
-          Text("Conform OTP ", style: TextStyle(color: Colors.white))),
+          Text("Confirm OTP ", style: TextStyle(color: Colors.white))),
     );
   }
 }

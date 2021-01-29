@@ -97,20 +97,23 @@ class _User_addressState extends State<User_address> {
     );
   }
   Widget ADD_Address(){
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
       child: FlatButton(
-        color: Colors.redAccent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Add_Address()));
-        },
-        child:Row(
-          children:[
-            Text("Add New Address", style: TextStyle(color: Colors.white))],),),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Colors.black12)
+          ),
+          height: 50,
+          minWidth: 100,
+          color: Colors.red,
+          child:
+          Text("Add New Address ", style: TextStyle(color: Colors.white)),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Add_Address()));
+          }),
     );
   }
 }

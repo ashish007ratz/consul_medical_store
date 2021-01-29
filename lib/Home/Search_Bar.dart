@@ -16,7 +16,14 @@ class _Search_BarState extends State<Search_Bar> {
       endDrawerEnableOpenDragGesture: true,
       endDrawer: DrawerList(),
       appBar: Appbar(),
-      body: Search_Content(),
+      body:
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+            child:
+              Search_Content(),
+            ),
+      ),
     );
   }
   Widget Appbar(){
@@ -88,8 +95,10 @@ class _Search_BarState extends State<Search_Bar> {
           search = value;
         },
         decoration: InputDecoration(
+          focusColor: Colors.red,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20)
+          ),
           hintText: "Search your product ",
           contentPadding:
           new EdgeInsets.symmetric(vertical: 5, horizontal: 10),

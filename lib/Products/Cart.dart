@@ -1,3 +1,4 @@
+import 'package:consule_medical_store/Products/Check_Out.dart';
 import 'package:flutter/material.dart';
 class Shopping_Cart extends StatefulWidget {
   @override
@@ -5,6 +6,7 @@ class Shopping_Cart extends StatefulWidget {
 }
 
 class _Shopping_CartState extends State<Shopping_Cart> {
+  int _volume = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -12,16 +14,19 @@ class _Shopping_CartState extends State<Shopping_Cart> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar( backgroundColor: Colors.red,
-        title: Center(child: Text("My Cart")),
+        title: Center(child: Text("Check Out")),
       ),
-      body: ListView(
-        children: [
-          Container(
-            height: height/7,
-            child:
-            Cart1(),
-          )
-        ],
+      body: Container(
+        child: ListView(
+          children: [
+            Container(
+              height: height/7,
+              child:
+              Cart1(),
+            ),
+            Check_Out(),
+          ],
+        ),
       ),
     );
   }
@@ -85,5 +90,25 @@ class _Shopping_CartState extends State<Shopping_Cart> {
       ),
     );
   }
-  int _volume = 1;
+
+  Widget Check_Out(){
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: FlatButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Colors.black12)
+          ),
+          height: 50,
+          minWidth: 100,
+          color: Colors.red,
+          child:
+          Text("CheckOut ", style: TextStyle(color: Colors.white)),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CheckOut()));
+          }),
+    );
+  }
 }

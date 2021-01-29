@@ -18,12 +18,11 @@ class _Add_AddressState extends State<Add_Address> {
       appBar: AppBar( backgroundColor: Colors.red,
         title: Center(child: Text("My Address")),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Enter_Your_Address(),
           Container(
-            height: height/7,
-            child:Address(),
+            child:Address1(),
           ),
           ADD_Address(),
         ],
@@ -38,163 +37,82 @@ class _Add_AddressState extends State<Add_Address> {
         children: [
           Row(
             children: [
-              Text("Enter your Address Here",style: TextStyle(fontSize: 30),)
+              Text("Enter your Address Here",style: TextStyle(fontSize: 30,color: Colors.red),),
             ],
           )
         ],
       ),
     );
   }
-  Widget Address(){
-    double height = MediaQuery.of(context).size.height;
+  Widget Address1(){
     double width = MediaQuery.of(context).size.width;
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text("Lane no"),
-              SizedBox(
-                width: width/10,
+    double height = MediaQuery.of(context).size.height;
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        child: Column(
+          children: [
+            SizedBox(
+              width: width/20,
+            ),
+            SelectState(
+              onStateChanged:(value) {
+                setState(() {
+                  stateValue = value;
+                });
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: "PIN Code",
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  hintText: " ",
-                  contentPadding:
-                  new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  labelText: "Home Add",
-                ),
+              keyboardType: TextInputType.text,
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return "Enter PIN Code";
+                } else
+                  return null;
+              },
+              onSaved: (String value) {
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: "Land Mark",
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Land Mark"),
-              SizedBox(
-                width: width/10,
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  hintText: " ",
-                  contentPadding:
-                  new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  labelText: "Land mark",
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text("City"),
-              SizedBox(
-                width: width/10,
-              ),
-              SelectState(
-                onCityChanged:(value) {
-                  setState(() {
-                    cityValue = value;
-                  });
-                },
-              ),
-              // TextFormField(
-              //   keyboardType: TextInputType.text,
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(20)),
-              //     hintText: " ",
-              //     contentPadding:
-              //     new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              //   ),
-              // ),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Select country"),
-              SizedBox(
-                width: width/10,
-              ),
-              SelectState(
-                onCountryChanged: (value) {
-                  setState(() {
-                    countryValue = value;
-                  });
-                },
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text("State"),
-              SizedBox(
-                width: width/10,
-              ),
-              SelectState(
-                onStateChanged:(value) {
-                  setState(() {
-                    stateValue = value;
-                  });
-                },
-              ),
-              // TextFormField(
-              //   keyboardType: TextInputType.text,
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(20)),
-              //     hintText: " ",
-              //     contentPadding:
-              //     new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              //   ),
-              // ),
-            ],
-          ),
-          Row(
-            children: [
-              Text("PIN Code"),
-              SizedBox(
-                width: width/10,
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  hintText: " ",
-                  contentPadding:
-                  new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                ),
-              ),
-            ],
-          ),
-        ],
+              keyboardType: TextInputType.text,
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return "Enter Land Mark";
+                } else
+                  return null;
+              },
+              onSaved: (String value) {
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
   Widget ADD_Address(){
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return Center(
-      child: new SizedBox(
-        width: width/2,
-        height: height/20,
-        child: new RaisedButton(
-        color: Colors.red,
-        shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-    ),
-             child: new Text('Add Address',style: TextStyle(color: Colors.white)),
-               onPressed: () {
-               Navigator.push(
-         context,
-            MaterialPageRoute(builder: (context) => User_address()));
-    },
-    ),
-    ));
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: FlatButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Colors.black12)
+          ),
+          height: 50,
+          minWidth: 100,
+          color: Colors.red,
+          child:
+          Text("Add Address ", style: TextStyle(color: Colors.white)),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Add_Address()));
+          }),
+    );
   }
 }

@@ -135,7 +135,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                     Row(
                       children: [
                         Text('New User ? ',style: TextStyle(color: Colors.black45, fontWeight:FontWeight.w200),),
-                        Text(' Sign Up',style: TextStyle(color: Colors.pink, fontWeight:FontWeight.w200),),
+                        Text(' Sign Up',style: TextStyle(color: Colors.red, fontWeight:FontWeight.w200),),
                       ],
                     ),
                     onPressed: () {
@@ -175,6 +175,9 @@ class _Login_ScreenState extends State<Login_Screen> {
   Widget buildPasswordTextField() {
     return Container(
       child: TextFormField(
+        decoration: InputDecoration(
+          labelText: "Password",
+        ),
         controller: passwordController,
         keyboardType: TextInputType.text,
         validator: (String value) {
@@ -188,12 +191,6 @@ class _Login_ScreenState extends State<Login_Screen> {
         onSaved: (String value) {
           password = value;
         },
-        decoration: InputDecoration(
-          hintText: "*******",
-          contentPadding:
-          new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          labelText: "Password",
-        ),
         obscureText: _obscureText,
       ),
     );
@@ -222,7 +219,7 @@ class _Login_ScreenState extends State<Login_Screen> {
           ),
           height: 50,
           minWidth: 400,
-          color: Colors.pink,
+          color: Colors.red,
           onPressed: Validate,
           child:
           Text("Sign In ", style: TextStyle(color: Colors.white))),
