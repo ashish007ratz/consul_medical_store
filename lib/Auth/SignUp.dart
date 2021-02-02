@@ -1,6 +1,8 @@
 import 'package:consule_medical_store/Auth/LogIn.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart'as http;
 
 class SignUp extends StatefulWidget {
   @override
@@ -14,7 +16,6 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   bool isLoading = false,
       registerationLoading = false,
       rememberMe = false,
@@ -24,16 +25,39 @@ class _SignUpState extends State<SignUp> {
 
   bool _obscureText = true;
 
-  void Validate()
-  {
-    if(_formKey.currentState.validate())
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>Login_Screen()));
-    else{
-      print("data must be filled");
-    }
+  onRegister() async {
+    var _fprm = _formKey.currentState;
+    if(_fprm.validate())
+      {
+        print('in on register');
+        _fprm.save();
+        Map<String,dynamic> body = {
+          "firstName": name,
+          "email" : email,
+          "password": password,
+          "role": "User",
+        };
+
+        await Auth_services.signUp(body).then((onValue){
+          try{
+            if (onValue['response_code']==200){
+              print('in if condition');
+              print("${onValue['response_data']}");
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
+            }
+            else if (onValue['status_code']==401)
+            {
+              print("${onValue['response_data']}");
+            }
+            else {
+              print("${onValue['response_data']}");
+            }
+          }catch(error){
+            print(error);
+          }
+        });
+      }
+
   }
 
   @override
@@ -158,7 +182,7 @@ class _SignUpState extends State<SignUp> {
           } else
             return null;
         },
-        onSaved: (String value) {
+        onSaved: (value) {
           name = value;
         },
         decoration: InputDecoration(
@@ -167,13 +191,15 @@ class _SignUpState extends State<SignUp> {
           new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           labelText: "Name",
         ),
-        obscureText: _obscureText,
       ),
     );
   }
   Widget buildEmailTextField() {
     return Column(
         children:[ TextFormField(
+          onSaved: (value){
+            email = value;
+          },
             decoration: InputDecoration(
               hintText: "ash@gmail.com",
               labelText: "Email Address",
@@ -207,7 +233,7 @@ class _SignUpState extends State<SignUp> {
           } else
             return null;
         },
-        onSaved: (String value) {
+        onSaved: (value) {
           password = value;
         },
         decoration: InputDecoration(
@@ -220,6 +246,7 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
   Widget buildSignInButton(){
     return Padding(
       padding: const EdgeInsets.all(18.0),
@@ -231,7 +258,7 @@ class _SignUpState extends State<SignUp> {
           height: 50,
           minWidth: 300,
           color: Colors.pink,
-          onPressed: Validate,
+          onPressed: onRegister,
           child:
           Text("Sign Up ", style: TextStyle(color: Colors.white))),
     );
