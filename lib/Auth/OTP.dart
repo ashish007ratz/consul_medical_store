@@ -1,8 +1,11 @@
 import 'package:consule_medical_store/Home/Home.dart';
 import 'package:consule_medical_store/Auth/Change_Password.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 
 class OTP extends StatefulWidget {
+  final token;
+  OTP({this.token});
   @override
   _OTPState createState() => _OTPState();
 }
@@ -17,20 +20,44 @@ class _OTPState extends State<OTP> {
       rememberMe = false,
       value = false,
       passwordVisible = true;
-  String OTP;
+  String otp;
 
-  bool _obscureText = true;
 
-  void Validate()
-  {
-    if(_formKey.currentState.validate())
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>Change_Password()));
-    else{
-      print("data must be filled");
+  otpfill() async {
+    var _form = _formKey.currentState;
+    if(_form.validate())
+    {
+      print('in on process');
+      _form.save();
+      Map<String,dynamic> body = {
+        "otp" : otp,
+      };
+
+      await Auth_services.otpp(body, widget.token).then((onValue){
+        print("token ==== ${widget.token}");
+        try{
+          print("in try condition");
+          print("${onValue}");
+          if (onValue['response_code']==200){
+            print("${onValue['response_data']}");
+            print("in if condition");
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Change_Password(token: onValue['response_data']['token'])));
+          }
+          else if (onValue['status_code']== 401)
+          {
+            print("in else if condition");
+            print("${onValue['response_data']}");
+          }
+          else {
+            print("in else condition");
+            print("${onValue['response_data']}");
+          }
+        }catch(error){
+          print(error);
+        }
+      });
     }
+
   }
 
   @override
@@ -106,7 +133,7 @@ class _OTPState extends State<OTP> {
                 SizedBox(
                   height: height / 30,
                 ),
-                buildEmailTextField(),
+                buildOTPTextField(),
                 SizedBox(
                   height: height / 30,
                 ),
@@ -122,14 +149,17 @@ class _OTPState extends State<OTP> {
       ),
     );
   }
-  Widget buildEmailTextField() {
+  Widget buildOTPTextField() {
     return Column(
         children:[ TextFormField(
+          onSaved: (value){
+            otp=value;
+          },
             decoration: InputDecoration(
               labelText: "Enter Your OTP",
             ),
             controller: OTPControler,
-            validator: (String value) {
+            validator: (value) {
               if (value.isEmpty) {
                 return "OTP not Valid";
               }  else
@@ -148,10 +178,10 @@ class _OTPState extends State<OTP> {
           ),
           height: 50,
           minWidth: 400,
-          color: Colors.pink,
-          onPressed: Validate,
+          color: Colors.red,
+          onPressed: otpfill,
           child:
-          Text("Conform OTP ", style: TextStyle(color: Colors.white))),
+          Text("Confirm OTP ", style: TextStyle(color: Colors.white))),
     );
   }
 }

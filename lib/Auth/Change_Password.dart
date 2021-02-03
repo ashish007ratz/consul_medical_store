@@ -1,6 +1,9 @@
 import 'package:consule_medical_store/Auth/LogIn.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 class Change_Password extends StatefulWidget {
+final token;
+  Change_Password({this.token});
   @override
   _Change_PasswordState createState() => _Change_PasswordState();
 }
@@ -19,16 +22,39 @@ class _Change_PasswordState extends State<Change_Password> {
     });
   }
 
-  void Validate()
-  {
-    if(_formKey.currentState.validate())
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>Login_Screen()));
-    else{
-      print("data must be filled");
+  changePassword() async {
+    var _form = _formKey.currentState;
+    if(_form.validate())
+    {
+      print('in on process');
+      _form.save();
+      Map<String,dynamic> body = {
+        "password" : password,
+      };
+
+      await Auth_services.changePass(body, widget.token).then((onValue){
+        try{
+          print("in try condition");
+          if (onValue['response_code']==200){
+            print("${onValue['response_data']}");
+            print("in if condition");
+            showDialog(context: context,child: gotoButton(),);
+          }
+          else if (onValue['status_code']==401)
+          {
+            print("in else if condition");
+            print("${onValue['response_data']}");
+          }
+          else {
+            print("in else condition");
+            print("${onValue['response_data']}");
+          }
+        }catch(error){
+          print(error);
+        }
+      });
     }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -139,7 +165,7 @@ class _Change_PasswordState extends State<Change_Password> {
           } else
             return null;
         },
-        onSaved: (String value) {
+        onSaved: (value) {
           password = value;
         },
         decoration: InputDecoration(
@@ -168,7 +194,7 @@ class _Change_PasswordState extends State<Change_Password> {
           } else
             return null;
         },
-        onSaved: (String value) {
+        onSaved: (value) {
           password = value;
         },
         decoration: InputDecoration(
@@ -188,9 +214,23 @@ class _Change_PasswordState extends State<Change_Password> {
           height: 50,
           minWidth: 400,
           color: Colors.pink,
-          onPressed: Validate,
+          onPressed: changePassword,
           child:
-          Text("Confirm OTP ", style: TextStyle(color: Colors.white))),
+          Text("Save Password ", style: TextStyle(color: Colors.white))),
     );
+  }
+  Widget gotoButton(){
+    return
+      new AlertDialog(
+        title: Text("Password Reset"),
+        actions: [
+          FlatButton(
+              color: Colors.red,
+              onPressed: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Login_Screen()));},
+              child:
+              Text("login", style: TextStyle(color: Colors.white))),
+        ],
+      );
   }
 }

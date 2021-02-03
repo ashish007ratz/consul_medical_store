@@ -1,4 +1,5 @@
 import 'package:consule_medical_store/Auth/OTP.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 class Forget_Password extends StatefulWidget {
   @override
@@ -10,25 +11,54 @@ class _Forget_PasswordState extends State<Forget_Password> {
   TextEditingController emailController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool isLoading = false,
-      registerationLoading = false,
-      rememberMe = false,
-      value = false,
-      passwordVisible = true;
-  String email, password, name;
+  bool isLoading = false;
+  String email;
 
-  bool _obscureText = true;
 
-  void Validate()
-  {
-    if(_formKey.currentState.validate())
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>OTP()));
-    else{
-      print("data must be filled");
+  Forget() async {
+    var _form = _formKey.currentState;
+    if(_form.validate())
+    {
+      print('in on process');
+      _form.save();
+      Map<String,dynamic> body = {
+        "email" : email,
+      };
+
+      await Auth_services.forgetPass(body).then((onValue){
+        try{
+          print("in try condition");
+          print("${onValue}");
+          if (onValue['response_code']==200){
+            print("${onValue['response_data']}");
+            print("in if condition");
+            showDialog(context: context,child: new AlertDialog(
+              title: Text("${onValue['response_data']['message']}"),
+              actions: [
+                FlatButton(
+                    color: Colors.red,
+                    onPressed: (){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>OTP(token: onValue['response_data']['token'],)));},
+                    child:
+                    Text("ok", style: TextStyle(color: Colors.white))),
+              ],
+            ));
+          }
+          else if (onValue['status_code']==401)
+          {
+            print("in else if condition");
+            print("${onValue['response_data']}");
+          }
+          else {
+            print("in else condition");
+            print("${onValue['response_data']}");
+          }
+        }catch(error){
+          print(error);
+        }
+      });
     }
+
   }
 
   @override
@@ -123,12 +153,15 @@ class _Forget_PasswordState extends State<Forget_Password> {
   Widget buildEmailTextField() {
     return Column(
         children:[ TextFormField(
+          onSaved: (value){
+            email = value;
+          },
             decoration: InputDecoration(
               labelText: "Email Address",
             ),
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            validator: (String value) {
+            validator: (value) {
               if (value.isEmpty) {
                 return "Please Enter your email";
               } else if (!RegExp(
@@ -151,8 +184,8 @@ class _Forget_PasswordState extends State<Forget_Password> {
           ),
           height: 50,
           minWidth: 400,
-          color: Colors.pink,
-          onPressed: Validate,
+          color: Colors.red,
+          onPressed: (){Forget();},
           child:
           Text("Get OTP ", style: TextStyle(color: Colors.white))),
     );

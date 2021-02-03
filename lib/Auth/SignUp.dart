@@ -26,11 +26,11 @@ class _SignUpState extends State<SignUp> {
   bool _obscureText = true;
 
   onRegister() async {
-    var _fprm = _formKey.currentState;
-    if(_fprm.validate())
+    var _form = _formKey.currentState;
+    if(_form.validate())
       {
         print('in on register');
-        _fprm.save();
+        _form.save();
         Map<String,dynamic> body = {
           "firstName": name,
           "email" : email,
