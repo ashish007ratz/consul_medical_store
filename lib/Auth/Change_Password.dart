@@ -38,9 +38,20 @@ class _Change_PasswordState extends State<Change_Password> {
           if (onValue['response_code']==200){
             print("${onValue['response_data']}");
             print("in if condition");
-            showDialog(context: context,child: gotoButton(),);
+            showDialog(context: context,child: new AlertDialog(
+              title: Text("Password Reset"),
+              actions: [
+                FlatButton(
+                    color: Colors.red,
+                    onPressed: (){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Login_Screen()));},
+                    child:
+                    Text("login", style: TextStyle(color: Colors.white))),
+              ],
+            ),);
           }
           else if (onValue['status_code']==401)
+
           {
             print("in else if condition");
             print("${onValue['response_data']}");
@@ -100,13 +111,6 @@ class _Change_PasswordState extends State<Change_Password> {
           ),
           child: Container(
             height: height/1.355,
-            decoration: new BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Column(
 
@@ -169,9 +173,6 @@ class _Change_PasswordState extends State<Change_Password> {
           password = value;
         },
         decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.all(0.0),
-          ),
           hintText: "*******",
           contentPadding:
           new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -188,7 +189,7 @@ class _Change_PasswordState extends State<Change_Password> {
         keyboardType: TextInputType.text,
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Password";
+            return "Confirm Password";
           } else if (value.length < 6) {
             return "Please Enter Min 6 Digit Password";
           } else
@@ -199,7 +200,9 @@ class _Change_PasswordState extends State<Change_Password> {
         },
         decoration: InputDecoration(
           errorStyle: TextStyle(color: Colors.black54),
+          labelText: "Confirm Password",
         ),
+        obscureText: _obscureText,
       ),
     );
   }
@@ -213,7 +216,7 @@ class _Change_PasswordState extends State<Change_Password> {
           ),
           height: 50,
           minWidth: 400,
-          color: Colors.pink,
+          color: Colors.red,
           onPressed: changePassword,
           child:
           Text("Save Password ", style: TextStyle(color: Colors.white))),

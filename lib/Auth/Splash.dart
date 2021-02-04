@@ -18,6 +18,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

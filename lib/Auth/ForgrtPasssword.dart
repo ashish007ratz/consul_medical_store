@@ -44,10 +44,21 @@ class _Forget_PasswordState extends State<Forget_Password> {
               ],
             ));
           }
-          else if (onValue['status_code']==401)
+          else if (onValue['response_code']==401)
           {
             print("in else if condition");
-            print("${onValue['response_data']}");
+            showDialog(context: context,child: new AlertDialog(
+              title: Text("${onValue['response_data']}"),
+              actions: [
+                FlatButton(
+                    color: Colors.red,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child:
+                    Text("ok", style: TextStyle(color: Colors.white))),
+              ],
+            ));
           }
           else {
             print("in else condition");

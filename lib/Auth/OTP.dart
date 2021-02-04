@@ -1,4 +1,3 @@
-import 'package:consule_medical_store/Home/Home.dart';
 import 'package:consule_medical_store/Auth/Change_Password.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +14,6 @@ class _OTPState extends State<OTP> {
   TextEditingController OTPControler = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool isLoading = false,
-      registerationLoading = false,
-      rememberMe = false,
-      value = false,
-      passwordVisible = true;
   String otp;
 
 
@@ -35,15 +29,16 @@ class _OTPState extends State<OTP> {
 
       await Auth_services.otpp(body, widget.token).then((onValue){
         print("token ==== ${widget.token}");
+        print(otp);
         try{
           print("in try condition");
           print("${onValue}");
-          if (onValue['response_code']==200){
+          if (onValue['response_code'] == 200){
             print("${onValue['response_data']}");
             print("in if condition");
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Change_Password(token: onValue['response_data']['token'])));
           }
-          else if (onValue['status_code']== 401)
+          else if (onValue['statusCode'] == 401)
           {
             print("in else if condition");
             print("${onValue['response_data']}");
@@ -153,7 +148,7 @@ class _OTPState extends State<OTP> {
     return Column(
         children:[ TextFormField(
           onSaved: (value){
-            otp=value;
+            otp = value;
           },
             decoration: InputDecoration(
               labelText: "Enter Your OTP",

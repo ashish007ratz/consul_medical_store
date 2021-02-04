@@ -22,13 +22,13 @@ static Future<Map<String, dynamic>> forgetPass(body) async {
 }
 static Future<Map<String, dynamic>> otpp(body, token) async {
   final response = await client.post(Constants.baseurl + "users/verify/OTP",
-      body : json.encode(body), headers: {'Content-Type' : 'application/json'});
+      body : json.encode(body), headers: {'Content-Type' : 'application/json', 'Authorization' : 'bearer $token'});
   return json.decode(response.body);
 }
 
 static Future<Map<String, dynamic>> changePass(body, token) async {
   final response = await client.post(Constants.baseurl + "users/reset-password",
-      body : json.encode(body), headers: {'Content-Type' : 'application/json'});
+      body : json.encode(body), headers: {'Content-Type' : 'application/json', 'Authorization': 'bearer $token'});
   return json.decode(response.body);
 }
 }
