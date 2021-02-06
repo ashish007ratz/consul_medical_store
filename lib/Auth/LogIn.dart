@@ -2,8 +2,8 @@ import 'package:consule_medical_store/Auth/ForgrtPasssword.dart';
 import 'package:consule_medical_store/Auth/SignUp.dart';
 import 'package:consule_medical_store/Home/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'as http;
 import 'package:consule_medical_store/Services/Auth_Service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login_Screen extends StatefulWidget {
   @override
@@ -28,6 +28,7 @@ class _Login_ScreenState extends State<Login_Screen> {
 
 
   onLogin() async {
+    SharedPreferences _sharepreference = await SharedPreferences.getInstance();
     var _form = _formKey.currentState;
     if(_form.validate())
     {
@@ -38,12 +39,15 @@ class _Login_ScreenState extends State<Login_Screen> {
         "password": password,
       };
 
-      await Auth_services.signIn(body).then((onValue){
+      await Auth_services.signIn(body,).then((onValue){
         try{
           if (onValue['response_code']==200){
+            _sharepreference.setString('setToken', "${onValue['response_data']['token']}");
+            _sharepreference.setString('userId', "${onValue['response_data']['_id']}");
+            _sharepreference.setString('email', "${onValue['response_data']['_id']}");
             print('in if condition');
             print("${onValue['response_data']}");
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home(token: onValue['token'])));
           }
           else if (onValue['status_code']==401)
           {

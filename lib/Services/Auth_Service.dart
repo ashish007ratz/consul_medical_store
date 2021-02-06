@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:consule_medical_store/Services/Contants.dart';
 import 'package:http/http.dart' show Client;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Common/Common.dart';
 
 class Auth_services {
 static final Client client = Client();
@@ -31,4 +34,20 @@ static Future<Map<String, dynamic>> changePass(body, token) async {
       body : json.encode(body), headers: {'Content-Type' : 'application/json', 'Authorization': 'bearer $token'});
   return json.decode(response.body);
 }
+
+// get user info
+static Future<Map<String,dynamic>> getUserInfo() async {
+  String token,userId;
+  await Common.getToken().then((onValue) {
+    token = onValue;
+  });
+  SharedPreferences prefs =await SharedPreferences.getInstance();
+  final response = await client.get(Constants.baseurl +"users/me",
+      headers:{'content-Type':'application/json', 'Authorization':'bearer $token'
+  });
+  print(response.body);
+  Common.setUserInfo(json.decode(response.body));
+  return json.decode(response.body);
+}
+
 }

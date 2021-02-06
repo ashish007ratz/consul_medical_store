@@ -8,10 +8,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:consule_medical_store/Home/Search_Bar.dart';
 import 'package:consule_medical_store/Home/Upload_Prescription.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Home extends StatefulWidget {
   @override
   final String title;
-  Home({Key key, this.title}) : super(key: key);
+  Home({Key key, this.title, token}) : super(key: key);
   _HomeState createState() => _HomeState();
 }
 
@@ -27,14 +28,14 @@ class _HomeState extends State<Home> {
     Product1(),
     Product2(),
   ];
-  // List<T> map<T>(List list, Function handler) {
-  //   List<T> result = [];
-  //   for (var i = 0; i < list.length; i++) {
-  //     result.add(handler(i, list[i]));
-  //   }
-  //   return result;
-  // }
 
+  List<T> map<T>(List list, Function handler) {
+    List<T> result = [];
+    for (var i = 0; i < list.length; i++) {
+      result.add(handler(i, list[i]));
+    }
+    return result;
+  }
 
   @override
 
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
              width: width,
                     child: Column(
                       children: <Widget>[
+                        Text("${'userId'}"),
                         carousel(),
                         SizedBox(
                           height: height / 30,
@@ -164,10 +166,11 @@ class _HomeState extends State<Home> {
           ListTile(
             leading: Icon(Icons.logout,color: Colors.black,) ,
             title: Text('Logout',style: TextStyle(color: Colors.black),),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>Splash_Screen()));
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+               prefs.setString('email', null);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (BuildContext) => Splash_Screen()));
             },
           ),
         ],
