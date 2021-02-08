@@ -1,4 +1,5 @@
-import 'package:consule_medical_store/Auth/Change_Password.dart';
+import 'package:consule_medical_store/Home/EditProfile.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 class Profile_Data extends StatefulWidget {
   @override
@@ -6,6 +7,32 @@ class Profile_Data extends StatefulWidget {
 }
 
 class _Profile_DataState extends State<Profile_Data> {
+  void initState(){
+    super.initState();
+    profileData();
+  }
+  var userInfo;
+
+  profileData() async{
+    await Auth_services.getUserInfo().then((onValue){
+      try {
+        if(onValue['response_code'] == 200)
+          {
+            userInfo =onValue['response_data']['userInfo'];
+            print("${userInfo['firstName']}");
+          }
+        else if(onValue['response_code'] == 401){
+          print("${onValue['response_code']}");
+        }
+        else{
+
+        }
+        }
+        catch(error){
+
+        }
+      });
+    }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -16,7 +43,6 @@ class _Profile_DataState extends State<Profile_Data> {
         child:Column(
           children:[
              ProfileDataFill (),
-            ChangePaaswordButton (),
       ],),
     ),),
     );
@@ -24,101 +50,94 @@ class _Profile_DataState extends State<Profile_Data> {
   Widget ProfileDataFill(){
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Form(
-        child: Column(
-          children: [
-            Center(
-              child: Container(
-                height: height/4,
-                width: width/2,
-                child: new Image.asset("lib/assets/images/logo.png",fit: BoxFit.fill),
-                ),
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-            Row(
-              children: [
-                Text("Full Name                 =>",style: TextStyle(color: Colors.black),),
-                SizedBox(
-                  width: width/10,
-                ),
-                Text("Ashish"),
-                Text("Raturi"),
-              ],
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-            Row(
-              children: [
-                Text("Phone Number        =>",style: TextStyle(color: Colors.black),),
-                SizedBox(
-                  width: width/10,
-                ),
-                Text("8126940910"),
-              ],
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-            Row(
-              children: [
-                Text("Address                    =>",style: TextStyle(color: Colors.black),),
-                SizedBox(
-                  width: width/10,
-                ),
-                Text("Lane no 4 dehradun"),
-              ],
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-            Row(
-              children: [
-                Text("Phone No                 =>",style: TextStyle(color: Colors.black),),
-                SizedBox(
-                  width: width/10,
-                ),
-                Text("248005575767"),
-              ],
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-            Row(
-              children: [
-                Text("PIN Code                  =>",style: TextStyle(color: Colors.black),),
-                SizedBox(
-                  width: width/10,
-                ),
-                Text("248005"),
-              ],
-            ),
-            SizedBox(
-              height: height / 30,
-            ),
-          ],
-        )
-    );
-  }
-  Widget ChangePaaswordButton(){
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-   return  new SizedBox(
-      width: width/2,
-      height: height/20,
-      child: new RaisedButton(
-        color: Colors.red,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: new Text('Change Password',style: TextStyle(color: Colors.white)),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Change_Password()));
-        },
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Form(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  height: height/4,
+                  width: width/2,
+                  child: new Image.asset("lib/assets/images/logo.png",fit: BoxFit.fill),
+                  ),
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.edit_outlined),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder : (context)=>Edit_profile()));
+                      }),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("Full Name  :",style: TextStyle(color: Colors.black),),
+                  SizedBox(
+                    width: width/10,
+                  ),
+                  Text("${userInfo['firstName']}"),
+                  // Text("${userInfo['lastName']}"),
+                ],
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              Row(
+                children: [
+                  Text("Email  :",style: TextStyle(color: Colors.black),),
+                  SizedBox(
+                    width: width/10,
+                  ),
+                  Text("${userInfo['email']}"),
+                ],
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              Row(
+                children: [
+                  Text("Phone  :",style: TextStyle(color: Colors.black),),
+                  SizedBox(
+                    width: width/10,
+                  ),
+                  Text("8126940910"),
+                ],
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              Row(
+                children: [
+                  Text("Address :",style: TextStyle(color: Colors.black),),
+                  SizedBox(
+                    width: width/10,
+                  ),
+                  Text("Lane no 4 dehradun"),
+                ],
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              Row(
+                children: [
+                  Text("PIN Code                  =>",style: TextStyle(color: Colors.black),),
+                  SizedBox(
+                    width: width/10,
+                  ),
+                  Text("248005"),
+                ],
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+            ],
+          )
       ),
     );
   }

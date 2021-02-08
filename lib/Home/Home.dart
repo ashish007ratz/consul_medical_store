@@ -3,6 +3,7 @@ import 'package:consule_medical_store/Home/Profile.dart';
 import 'package:consule_medical_store/Products/Cart.dart';
 import 'package:consule_medical_store/Products/Favorte.dart';
 import 'package:consule_medical_store/Products/Product_List.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  var Item ;
   List cardList = [
     Item1(),
     Item2(),
@@ -28,14 +30,32 @@ class _HomeState extends State<Home> {
     Product1(),
     Product2(),
   ];
+  Banner() async{
+    await Auth_services.getBanner().then((onValue){
+      try {
+        if(onValue['response_code'] == 200)
+        {
+          print("${onValue['response_data']}");
+        }
+        else if(onValue['response_code'] == 401){
+          print("${onValue['response_code']}");
+        }
+        else{
 
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
+        }
+      }
+      catch(error){
+
+      }
+    });
   }
+  // List<T> map<T>(List list, Function handler) {
+  //   List<T> result = [];
+  //   for (var i = 0; i < list.length; i++) {
+  //     result.add(handler(i, list[i]));
+  //   }
+  //   return result;
+  // }
 
   @override
 
@@ -52,7 +72,7 @@ class _HomeState extends State<Home> {
              width: width,
                     child: Column(
                       children: <Widget>[
-                        Text("${'userId'}"),
+                        Text("${}"),
                         carousel(),
                         SizedBox(
                           height: height / 30,
@@ -275,7 +295,7 @@ class _HomeState extends State<Home> {
 
         onPageChanged: (index, reason) {
           setState(() {
-            _currentIndex = index;
+            _currentIndex = Banner();
           });
         },
       ),

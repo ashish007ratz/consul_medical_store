@@ -1,6 +1,7 @@
 import 'package:consule_medical_store/Auth/ForgrtPasssword.dart';
 import 'package:consule_medical_store/Auth/SignUp.dart';
 import 'package:consule_medical_store/Home/Home.dart';
+import 'package:consule_medical_store/Services/Common/Common.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,8 +43,7 @@ class _Login_ScreenState extends State<Login_Screen> {
       await Auth_services.signIn(body,).then((onValue){
         try{
           if (onValue['response_code']==200){
-            _sharepreference.setString('setToken', "${onValue['response_data']['token']}");
-            _sharepreference.setString('userId', "${onValue['response_data']['_id']}");
+            Common.setToken(onValue['response_data']['token']);
             _sharepreference.setString('email', "${onValue['response_data']['_id']}");
             print('in if condition');
             print("${onValue['response_data']}");

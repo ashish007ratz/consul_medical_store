@@ -37,7 +37,7 @@ static Future<Map<String, dynamic>> changePass(body, token) async {
 
 // get user info
 static Future<Map<String,dynamic>> getUserInfo() async {
-  String token,userId;
+  String token;
   await Common.getToken().then((onValue) {
     token = onValue;
   });
@@ -49,5 +49,19 @@ static Future<Map<String,dynamic>> getUserInfo() async {
   Common.setUserInfo(json.decode(response.body));
   return json.decode(response.body);
 }
+
+  static Future<Map<String,dynamic>> getBanner() async {
+    String token;
+    await Common.getToken().then((onValue) {
+      token = onValue;
+    });
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    final response = await client.get(Constants.baseurl +"banner",
+        headers:{'content-Type':'application/json', 'Authorization':'bearer $token'
+        });
+    print(response.body);
+    Common.setUserInfo(json.decode(response.body));
+    return json.decode(response.body);
+  }
 
 }
