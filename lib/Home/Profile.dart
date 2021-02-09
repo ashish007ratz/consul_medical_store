@@ -12,13 +12,15 @@ class _Profile_DataState extends State<Profile_Data> {
     profileData();
   }
   var userInfo;
+  bool isdataLoading = true;
 
   profileData() async{
     await Auth_services.getUserInfo().then((onValue){
       try {
         if(onValue['response_code'] == 200)
           {
-            userInfo =onValue['response_data']['userInfo'];
+            isdataLoading == false;
+            userInfo = onValue['response_data']['userInfo'];
             print("${userInfo['firstName']}");
           }
         else if(onValue['response_code'] == 401){
@@ -81,7 +83,7 @@ class _Profile_DataState extends State<Profile_Data> {
                   SizedBox(
                     width: width/10,
                   ),
-                  Text("${userInfo['firstName']}"),
+                  Text(isdataLoading == true ? " " : "${userInfo['firstName']}"),
                   // Text("${userInfo['lastName']}"),
                 ],
               ),
@@ -94,7 +96,7 @@ class _Profile_DataState extends State<Profile_Data> {
                   SizedBox(
                     width: width/10,
                   ),
-                  Text("${userInfo['email']}"),
+                  Text(isdataLoading == true ? " " : "${userInfo['email']}"),
                 ],
               ),
               SizedBox(
@@ -126,7 +128,7 @@ class _Profile_DataState extends State<Profile_Data> {
               ),
               Row(
                 children: [
-                  Text("PIN Code                  =>",style: TextStyle(color: Colors.black),),
+                  Text("PIN Code  :",style: TextStyle(color: Colors.black),),
                   SizedBox(
                     width: width/10,
                   ),

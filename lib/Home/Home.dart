@@ -5,11 +5,12 @@ import 'package:consule_medical_store/Products/Favorte.dart';
 import 'package:consule_medical_store/Products/Product_List.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:consule_medical_store/Home/Search_Bar.dart';
 import 'package:consule_medical_store/Home/Upload_Prescription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:carousel_pro/carousel_pro.dart';
+
 class Home extends StatefulWidget {
   @override
   final String title;
@@ -18,47 +19,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
-  var Item ;
-  List cardList = [
-    Item1(),
-    Item2(),
-    Item3(),
-    Item4()
-  ];
+  List bannerdata;
+  bool isbannerloading = true;
+
+   initState(){
+    getBannerData();
+    super.initState();
+  }
+
   List ProductList = [
     Product1(),
     Product2(),
   ];
-  Banner() async{
-    await Auth_services.getBanner().then((onValue){
-      try {
-        if(onValue['response_code'] == 200)
-        {
-          print("${onValue['response_data']}");
-        }
-        else if(onValue['response_code'] == 401){
-          print("${onValue['response_code']}");
-        }
-        else{
-
-        }
+  getBannerData() async {
+    await Auth_services.getBanner().then((value){
+      if(value['response_code'] == 200){
+        isbannerloading = false;
+        bannerdata = value['response_data']['banners'];
       }
-      catch(error){
-
+      else{
+        isbannerloading = true;
       }
     });
   }
-  // List<T> map<T>(List list, Function handler) {
-  //   List<T> result = [];
-  //   for (var i = 0; i < list.length; i++) {
-  //     result.add(handler(i, list[i]));
-  //   }
-  //   return result;
-  // }
 
   @override
-
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -72,8 +57,18 @@ class _HomeState extends State<Home> {
              width: width,
                     child: Column(
                       children: <Widget>[
-                        Text("${}"),
-                        carousel(),
+                        Container(
+                          height: height/3.5,
+                          width: width,
+                          child: Carousel(
+                            showIndicator: false,
+                            boxFit: BoxFit.cover,
+                            dotBgColor: Colors.transparent,
+                            images: bannerdata.map((url){
+                              return Image.network("${url['imageURL']}");
+                            }).toList(),
+                          ),
+                        ),
                         SizedBox(
                           height: height / 30,
                         ),
@@ -99,6 +94,7 @@ class _HomeState extends State<Home> {
                )
     );
   }
+
     Widget DrawerList(){
       double height = MediaQuery.of(context).size.height;
       double width = MediaQuery.of(context).size.width;
@@ -197,6 +193,7 @@ class _HomeState extends State<Home> {
       ),
     );
     }
+
     Widget Appbar(){
       double height = MediaQuery.of(context).size.height;
       double width = MediaQuery.of(context).size.width;
@@ -252,22 +249,90 @@ class _HomeState extends State<Home> {
       ],
     );
     }
+
+
     Widget Product(){
       double width = MediaQuery.of(context).size.width;
       double height = MediaQuery.of(context).size.height;
-    return Container(
-      height: height/2,
-      width:width/1.2,
-      child: ListView(
-        children: [
+      return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.red)
+        ),
+        height: height/2,
+        width: width/1.2,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+          child: Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-          Product1(),
-          Product2(),
-        ],
-        scrollDirection: Axis.horizontal,
-      ),
-    );
+                Container(
+                  height: height/4,
+                  child: Image.asset("lib/assets/images/product2.png"),
+                ),
+                Container(
+                  height: height/50,
+                  width: width/1.2,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                Container(
+                  height: height/30,
+                  width: width/1.2,
+                  child: Row(
+                    children: [
+                      Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                      Text("150",style: TextStyle(color: Colors.black)),
+                      SizedBox(
+                        width: width/4,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Available : ",style: TextStyle(color: Colors.black45)),
+                          Text("300",style: TextStyle(color: Colors.black)),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ),
+                Text("Category",style: TextStyle(color: Colors.black45)),
+                Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: [
+                      Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 80),
+                        child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.black12)
+                            ),
+                            height: 30,
+                            minWidth: 40,
+                            color: Colors.red,
+                            onPressed:()=>Splash_Screen ,
+                            child:
+                            Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
     }
+
     Widget ProductListButton() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -281,39 +346,40 @@ class _HomeState extends State<Home> {
                   MaterialPageRoute(builder: (context) =>Product_List()));
             },)],);
     }
-    Widget carousel(){
-      double width = MediaQuery.of(context).size.width;
-      double height = MediaQuery.of(context).size.height;
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: height/3.8,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        pauseAutoPlayOnTouch: true,
+    // Widget carousel(){
+    //   double width = MediaQuery.of(context).size.width;
+    //   double height = MediaQuery.of(context).size.height;
+    // return CarouselSlider(
+    //   options: CarouselOptions(
+    //     height: height/3.8,
+    //     autoPlay: true,
+    //     autoPlayInterval: Duration(seconds: 3),
+    //     autoPlayAnimationDuration: Duration(milliseconds: 800),
+    //     autoPlayCurve: Curves.fastOutSlowIn,
+    //     pauseAutoPlayOnTouch: true,
+    //
+    //     onPageChanged: (index, reason) {
+    //       setState(() {
+    //         _currentIndex = Poster;
+    //       });
+    //     },
+    //   ),
+    //   items: cardList.map((card) {
+    //     return Builder(
+    //         builder: (BuildContext context) {
+    //           return Container(
+    //             height: MediaQuery.of(context).size.height,
+    //             width: MediaQuery.of(context).size.width,
+    //             child: Card(
+    //               child: card,
+    //             ),
+    //           );
+    //         }
+    //     );
+    //   }).toList(),
+    // );
+    // }
 
-        onPageChanged: (index, reason) {
-          setState(() {
-            _currentIndex = Banner();
-          });
-        },
-      ),
-      items: cardList.map((card) {
-        return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  child: card,
-                ),
-              );
-            }
-        );
-      }).toList(),
-    );
-    }
     Widget BrandLogo(){
       double width = MediaQuery.of(context).size.width;
       double height = MediaQuery.of(context).size.height;
@@ -335,6 +401,7 @@ class _HomeState extends State<Home> {
         ),
       ));
     }
+
     Widget Reviews(){
     return Container(
       height: 400,
@@ -368,6 +435,7 @@ class _HomeState extends State<Home> {
 
     );
     }
+
     Widget ContactUs(){
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -415,105 +483,6 @@ class _HomeState extends State<Home> {
       ),
     );
     }
-}
-class Item1 extends StatefulWidget {
-  const Item1({Key key}) : super(key: key);
-  @override
-  _Item1State createState() => _Item1State();
-}
-
-class _Item1State extends State<Item1> {
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-        'lib/assets/images/Active (3).png');
-
-  }
-}
-class Item2 extends StatefulWidget {
-  const Item2({Key key}) : super(key: key);
-  @override
-  _Item2State createState() => _Item2State();
-}
-
-class _Item2State extends State<Item2> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            'lib/assets/images/Active(6).png',
-            height: 180.0,
-            fit: BoxFit.cover,
-          )
-        ],
-
-      ),
-    );
-  }
-}
-
-class Item3 extends StatefulWidget {
-  const Item3({Key key}) : super(key: key);
-  @override
-  _Item3State createState() => _Item3State();
-}
-
-class _Item3State extends State<Item3> {
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.3, 1],
-            colors: [Color(0xffff4000),Color(0xffffcc66),]
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            'lib/assets/images/Active (4).png',
-            height: 180,
-            fit: BoxFit.fitHeight,
-          )
-        ],
-      ),
-    );
-  }
-}
-class Item4 extends StatefulWidget {
-  const Item4({Key key}) : super(key: key);
-  @override
-  _Item4State createState() => _Item4State();
-}
-
-class _Item4State extends State<Item4> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            'lib/assets/images/Active (5).png',
-            height: 180.0,
-            fit: BoxFit.cover,
-          )
-        ],
-      ),
-    );
-  }
 }
 class Product1 extends StatelessWidget {
   @override

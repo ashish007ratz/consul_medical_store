@@ -17,4 +17,15 @@ static Future<String>getToken() async{
     return Future(()=>prefs.get('token'));
   }
 
+
+  static void getBanner(decode) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return Future(()=>prefs.get('token'));
+  }
+
+  static void getProduct(decode)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return Future(() =>prefs.get('token'));
+  }
+
 }

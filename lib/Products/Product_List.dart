@@ -3,6 +3,7 @@ import 'package:consule_medical_store/Home/Address.dart';
 import 'package:consule_medical_store/Home/Home.dart';
 import 'package:consule_medical_store/Home/Profile.dart';
 import 'package:consule_medical_store/Products/Favorte.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
 import 'package:consule_medical_store/Home/Search_Bar.dart';
@@ -12,6 +13,108 @@ class Product_List extends StatefulWidget {
   _Product_ListState createState() => _Product_ListState();
 }
 class _Product_ListState extends State<Product_List> {
+  List productdata;
+  bool isproductloading = true;
+
+
+   initState(){
+    getProductData();
+    super.initState();
+  }
+
+  getProductData() async {
+    await Auth_services.getProduct().then((value){
+      if(value['response_code'] == 200){
+        isproductloading = false;
+        productdata = value['response_data'];
+        print("product list is  === ${productdata}");
+      }
+      else{
+        isproductloading = true;
+        print(value['response_data']);
+      }
+    });
+  }
+
+  // Widget Product(){
+  //   double width = MediaQuery.of(context).size.width;
+  //   double height = MediaQuery.of(context).size.height;
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(20),
+  //         border: Border.all(color: Colors.red)
+  //     ),
+  //     height: height/2,
+  //     width: width/1.2,
+  //     child: productdata.map((prdt){Container(
+  //       child: Card( child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             height: height/4,
+  //             child: Image.asset("lib/assets/images/product2.png"),
+  //           ),
+  //           Container(
+  //             height: height/50,
+  //             width: width/1.2,
+  //             decoration: BoxDecoration(
+  //               color: Colors.red,
+  //               borderRadius: BorderRadius.circular(10),
+  //             ),
+  //           ),
+  //           Container(
+  //             height: height/30,
+  //             width: width/1.2,
+  //             child: Row(
+  //               children: [
+  //                 Text("Sold : ",style: TextStyle(color: Colors.black45)),
+  //                 Text("150",style: TextStyle(color: Colors.black)),
+  //                 SizedBox(
+  //                   width: width/4,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.end,
+  //                   children: [
+  //                     Text("Available : ",style: TextStyle(color: Colors.black45)),
+  //                     Text("300",style: TextStyle(color: Colors.black)),
+  //                   ],
+  //                 ),
+  //
+  //               ],
+  //             ),
+  //           ),
+  //           Text("Category",style: TextStyle(color: Colors.black45)),
+  //           Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 10),
+  //             child: Row(
+  //               children: [
+  //                 Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
+  //                 Padding(
+  //                   padding: const EdgeInsets.only(left: 80),
+  //                   child: FlatButton(
+  //                       shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(18.0),
+  //                           side: BorderSide(color: Colors.black12)
+  //                       ),
+  //                       height: 30,
+  //                       minWidth: 40,
+  //                       color: Colors.red,
+  //                       onPressed:()=>Splash_Screen ,
+  //                       child:
+  //                       Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+  //                 ),
+  //               ],
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //       ),
+  //     )}).toList(),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -19,18 +122,85 @@ class _Product_ListState extends State<Product_List> {
     return Scaffold(
       endDrawer: DrawerList(),
       appBar: Appbar(),
-      body:Container(
-        height: height/2,
-        width: width/1.2,
-        child: ListView(
-          children: [
-            Product2(),
-            Product1()
-          ],
-        )
+      body:
+      SingleChildScrollView(
+      child:Center(
+        child: Container(
+          height: height,
+          width: width/1.2,
+          child:ListView(
+            children: [
+              productdata.map((e){return e;}).toList()
+            ],
+          ),
+        ),
       )
-    );
+    ));
   }
+
+  // Container( child: Column(
+  // mainAxisAlignment: MainAxisAlignment.start,
+  // crossAxisAlignment: CrossAxisAlignment.start,
+  // children: [
+  // Container(
+  // height: height/4,
+  // child: Image.asset("lib/assets/images/product2.png"),
+  // ),
+  // Container(
+  // height: height/50,
+  // width: width/1.2,
+  // decoration: BoxDecoration(
+  // color: Colors.red,
+  // borderRadius: BorderRadius.circular(10),
+  // ),
+  // ),
+  // Container(
+  // height: height/30,
+  // width: width/1.2,
+  // child: Row(
+  // children: [
+  // Text("Sold : ",style: TextStyle(color: Colors.black45)),
+  // Text("150",style: TextStyle(color: Colors.black)),
+  // SizedBox(
+  // width: width/4,
+  // ),
+  // Row(
+  // mainAxisAlignment: MainAxisAlignment.end,
+  // children: [
+  // Text("Available : ",style: TextStyle(color: Colors.black45)),
+  // Text("300",style: TextStyle(color: Colors.black)),
+  // ],
+  // ),
+  // ],
+  // ),
+  // ),
+  // Text("Category",style: TextStyle(color: Colors.black45)),
+  // Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
+  // Padding(
+  // padding: const EdgeInsets.only(top: 10),
+  // child: Row(
+  // children: [
+  // Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
+  // Padding(
+  // padding: const EdgeInsets.only(left: 80),
+  // child: FlatButton(
+  // shape: RoundedRectangleBorder(
+  // borderRadius: BorderRadius.circular(18.0),
+  // side: BorderSide(color: Colors.black12)
+  // ),
+  // height: 30,
+  // minWidth: 40,
+  // color: Colors.red,
+  // onPressed:()=>Splash_Screen ,
+  // child:
+  // Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+  // ),
+  // ],
+  // ),
+  // )
+  // ],
+  // ));
+
   Widget DrawerList(){
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;

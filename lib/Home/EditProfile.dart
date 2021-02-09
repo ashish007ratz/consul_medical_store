@@ -6,6 +6,7 @@ class Edit_profile extends StatefulWidget {
 }
 
 class _Edit_profileState extends State<Edit_profile> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -21,7 +22,9 @@ class _Edit_profileState extends State<Edit_profile> {
       body:
           SingleChildScrollView(child:
       Container(
-        child: Form(child:
+        child: Form(
+            key: _formKey,
+            child:
             Column(
               children: [
                 Row(
