@@ -21,6 +21,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List bannerdata;
   bool isbannerloading = true;
+  List productdata;
+  bool isproductloading = true;
 
    initState(){
     getBannerData();
@@ -39,6 +41,20 @@ class _HomeState extends State<Home> {
       }
       else{
         isbannerloading = true;
+      }
+    });
+  }
+
+  getProductData() async {
+    await Auth_services.getProduct().then((onValue){
+      if(onValue['response_code'] == 200){
+        isproductloading = false;
+        productdata = onValue['response_data'];
+        print("product list is  === ${productdata}");
+      }
+      else{
+        isproductloading = true;
+        print(onValue['response_data']);
       }
     });
   }
@@ -298,7 +314,6 @@ class _HomeState extends State<Home> {
                           Text("300",style: TextStyle(color: Colors.black)),
                         ],
                       ),
-
                     ],
                   ),
                 ),
