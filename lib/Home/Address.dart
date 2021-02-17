@@ -1,4 +1,5 @@
 import 'package:consule_medical_store/Home/ADD_Address.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 class User_address extends StatefulWidget {
   @override
@@ -6,6 +7,31 @@ class User_address extends StatefulWidget {
 }
 
 class _User_addressState extends State<User_address> {
+  List address;
+  bool addressloading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getadressdata() async {
+    await Auth_services.getaddress().then((value){
+      if(value['response_code'] == 200){
+        if(mounted){
+          setState(() {
+            addressloading = false;
+          });
+        }
+
+        address = value['response_data']['banners'];
+      }
+      else{
+        addressloading = true;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -16,27 +42,11 @@ class _User_addressState extends State<User_address> {
     ),
       body: ListView(
         children: [
-          Enter_Your_Address(),
           Container(
             height: height/7,
             child:Address1(),
           ),
           ADD_Address(),
-        ],
-      ),
-    );
-  }
-  Widget Enter_Your_Address(){
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text("Enter your Address Here",style: TextStyle(fontSize: 30,color: Colors.red),),
-            ],
-          )
         ],
       ),
     );

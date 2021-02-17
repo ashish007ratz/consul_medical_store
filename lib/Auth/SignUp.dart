@@ -257,7 +257,7 @@ class _SignUpState extends State<SignUp> {
           ),
           height: 50,
           minWidth: 300,
-          color: Colors.pink,
+          color: Colors.red,
           onPressed: onRegister,
           child:
           Text("Sign Up ", style: TextStyle(color: Colors.white))),

@@ -10,6 +10,7 @@ import 'package:consule_medical_store/Home/Search_Bar.dart';
 import 'package:consule_medical_store/Home/Upload_Prescription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:getwidget/getwidget.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -21,11 +22,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List bannerdata;
   bool isbannerloading = true;
-  List productdata;
+  List productdeal;
   bool isproductloading = true;
 
    initState(){
     getBannerData();
+    getProductData();
     super.initState();
   }
 
@@ -36,7 +38,12 @@ class _HomeState extends State<Home> {
   getBannerData() async {
     await Auth_services.getBanner().then((value){
       if(value['response_code'] == 200){
-        isbannerloading = false;
+        if(mounted){
+          setState(() {
+            isbannerloading = false;
+          });
+        }
+
         bannerdata = value['response_data']['banners'];
       }
       else{
@@ -46,14 +53,19 @@ class _HomeState extends State<Home> {
   }
 
   getProductData() async {
-    await Auth_services.getProduct().then((onValue){
+    await Auth_services.getProductdeal().then((onValue){
       if(onValue['response_code'] == 200){
-        isproductloading = false;
-        productdata = onValue['response_data'];
-        print("product list is  === ${productdata}");
+        if(mounted){
+          setState(() {
+            isproductloading = false;
+          });
+        }
+        productdeal = onValue['response_data'];
+        print("product list is  === ${productdeal}");
       }
       else{
         isproductloading = true;
+        return
         print(onValue['response_data']);
       }
     });
@@ -73,10 +85,11 @@ class _HomeState extends State<Home> {
              width: width,
                     child: Column(
                       children: <Widget>[
-                        Container(
+                        Container
+                          (
                           height: height/3.5,
                           width: width,
-                          child: Carousel(
+                          child: isbannerloading == true? GFLoader(type: GFLoaderType.ios,) : Carousel(
                             showIndicator: false,
                             boxFit: BoxFit.cover,
                             dotBgColor: Colors.transparent,
@@ -88,7 +101,85 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: height / 30,
                         ),
-                        Product(),
+                        Container(
+                          height:height/2.1 ,
+                          width: width/1.2,
+                          child: isproductloading == true? GFLoader(type: GFLoaderType.ios,):
+                          ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: productdeal.map((deal) {
+                              print(deal);
+                              return Container(
+                                child: Card(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: height/4,
+                                        child: Image.network("${deal['imageUrl']}"),
+                                      ),
+                                      Container(
+                                        height: height/50,
+                                        width: width/1.2,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: height/30,
+                                        width: width/1.2,
+                                        child: Row(
+                                          children: [
+                                            Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                                            Text("150",style: TextStyle(color: Colors.black)),
+                                            SizedBox(
+                                              width: width/4,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Text("Available : ",style: TextStyle(color: Colors.black45)),
+                                                Text("300",style: TextStyle(color: Colors.black)),
+                                              ],
+                                            ),
+
+                                          ],
+                                        ),
+                                      ),
+                                      Text("Category",style: TextStyle(color: Colors.black45)),
+                                      Text("${deal['category']}",style: TextStyle(color: Colors.black,fontSize: 18)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Text("${deal['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 80),
+                                              child: FlatButton(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(18.0),
+                                                      side: BorderSide(color: Colors.black12)
+                                                  ),
+                                                  height: 30,
+                                                  minWidth: 40,
+                                                  color: Colors.red,
+                                                  onPressed:()=>Splash_Screen ,
+                                                  child:
+                                                  Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+
+                          ),
+                        ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -361,39 +452,7 @@ class _HomeState extends State<Home> {
                   MaterialPageRoute(builder: (context) =>Product_List()));
             },)],);
     }
-    // Widget carousel(){
-    //   double width = MediaQuery.of(context).size.width;
-    //   double height = MediaQuery.of(context).size.height;
-    // return CarouselSlider(
-    //   options: CarouselOptions(
-    //     height: height/3.8,
-    //     autoPlay: true,
-    //     autoPlayInterval: Duration(seconds: 3),
-    //     autoPlayAnimationDuration: Duration(milliseconds: 800),
-    //     autoPlayCurve: Curves.fastOutSlowIn,
-    //     pauseAutoPlayOnTouch: true,
-    //
-    //     onPageChanged: (index, reason) {
-    //       setState(() {
-    //         _currentIndex = Poster;
-    //       });
-    //     },
-    //   ),
-    //   items: cardList.map((card) {
-    //     return Builder(
-    //         builder: (BuildContext context) {
-    //           return Container(
-    //             height: MediaQuery.of(context).size.height,
-    //             width: MediaQuery.of(context).size.width,
-    //             child: Card(
-    //               child: card,
-    //             ),
-    //           );
-    //         }
-    //     );
-    //   }).toList(),
-    // );
-    // }
+
 
     Widget BrandLogo(){
       double width = MediaQuery.of(context).size.width;

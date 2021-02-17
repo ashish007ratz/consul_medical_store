@@ -1,15 +1,58 @@
 import 'package:consule_medical_store/Home/Address.dart';
+import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
-import 'package:country_state_city_picker/country_state_city_picker.dart';
 class Add_Address extends StatefulWidget {
+  final token;
+  Add_Address({this.token});
   @override
   _Add_AddressState createState() => _Add_AddressState();
 }
 
 class _Add_AddressState extends State<Add_Address> {
-  String countryValue;
-  String stateValue;
-  String cityValue;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController flatNoController = TextEditingController();
+  TextEditingController postalCodeController = TextEditingController();
+
+  bool addressloading = true;
+  String address,flatno ,postalcode;
+
+  addAddresses() async {
+    var _form = _formKey.currentState;
+    if(_form.validate())
+    {
+      print('in on process');
+      _form.save();
+      Map<String,dynamic> body = {
+        "address": address,
+        "flatNo": flatno,
+        "postalCode": postalcode,
+      };
+
+      await Auth_services.addAddress(body, widget.token).then((onValue){
+        try{
+          print("${onValue}");
+          print("token ==== ${widget.token}");
+          if (onValue['response_code']==201){
+            print('in if condition');
+            print("${onValue['response_data']}");
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>User_address()));
+          }
+          else if (onValue['status_code']==401)
+          {
+            print("${onValue['response_data']}");
+          }
+          else {
+            print("${onValue['response_data']}");
+          }
+        }catch(error){
+          print(error);
+        }
+      });
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -49,51 +92,76 @@ class _Add_AddressState extends State<Add_Address> {
     double height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
+      child: Form(
+        key: _formKey,
+      child:
+      Container(
         child: Column(
           children: [
             SizedBox(
               width: width/20,
             ),
-            SelectState(
-              onStateChanged:(value) {
-                setState(() {
-                  stateValue = value;
-                });
-              },
-            ),
             TextFormField(
-              decoration: InputDecoration(
-                labelText: "PIN Code",
-              ),
+              controller: addressController,
               keyboardType: TextInputType.text,
               validator: (String value) {
                 if (value.isEmpty) {
-                  return "Enter PIN Code";
-                } else
+                  return "Enter address";
+                }  else
                   return null;
               },
-              onSaved: (String value) {
+              onSaved: (value) {
+                address = value;
               },
+              decoration: InputDecoration(
+                hintText: "address",
+                contentPadding:
+                new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                labelText: "address",
+              ),
             ),
             TextFormField(
-              decoration: InputDecoration(
-                labelText: "Land Mark",
-              ),
+              controller: flatNoController,
               keyboardType: TextInputType.text,
               validator: (String value) {
                 if (value.isEmpty) {
-                  return "Enter Land Mark";
-                } else
+                  return "Enter Flat no";
+                }  else
                   return null;
               },
-              onSaved: (String value) {
+              onSaved: (value) {
+                flatno = value;
               },
+              decoration: InputDecoration(
+                hintText: "flat",
+                contentPadding:
+                new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                labelText: "Flat no",
+              ),
+            ),
+            TextFormField(
+              controller: postalCodeController,
+              keyboardType: TextInputType.text,
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return "Enter postal Code";
+                }  else
+                  return null;
+              },
+              onSaved: (value) {
+                postalcode = value;
+              },
+              decoration: InputDecoration(
+                hintText: "Postal code",
+                contentPadding:
+                new EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                labelText: "Postal code",
+              ),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
   Widget ADD_Address(){
     return Padding(
@@ -108,11 +176,7 @@ class _Add_AddressState extends State<Add_Address> {
           color: Colors.red,
           child:
           Text("Add Address ", style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Add_Address()));
-          }),
+          onPressed: addAddresses),
     );
   }
 }
