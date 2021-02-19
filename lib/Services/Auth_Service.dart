@@ -113,6 +113,20 @@ static Future<Map<String,dynamic>> getUserInfo() async {
     return json.decode(response.body);
   }
 
+  static Future<Map<String,dynamic>> getCategory() async {
+    String token;
+    await Common.getToken().then((onValue) {
+      token = onValue;
+    });
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    final response = await client.get(Constants.baseurl +"address",
+        headers:{'content-Type':'application/json', 'Authorization':'bearer $token'});
+    print(response.body);
+    return json.decode(response.body);
+  }
+
+
+
   static Future<Map<String, dynamic>> addAddress(body , token) async {
     final response = await client.post(Constants.baseurl + "address",
         body : json.encode(body), headers: {'Content-Type' : 'application/json' ,'Authorization':'bearer $token'});

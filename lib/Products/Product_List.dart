@@ -103,7 +103,7 @@ class _Product_ListState extends State<Product_List> {
                       ),
                     ),
                     Text("Category",style: TextStyle(color: Colors.black45)),
-                    Text("${url['category']}",style: TextStyle(color: Colors.black,fontSize: 18)),
+                    Text("${url['cate']}",style: TextStyle(color: Colors.black,fontSize: 18)),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Row(

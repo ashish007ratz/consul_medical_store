@@ -23,11 +23,15 @@ class _HomeState extends State<Home> {
   List bannerdata;
   bool isbannerloading = true;
   List productdeal;
+  List variant;
   bool isproductloading = true;
+  List category;
+  bool iscategoryloading = true;
 
    initState(){
     getBannerData();
     getProductData();
+    getCatogeryList();
     super.initState();
   }
 
@@ -53,7 +57,7 @@ class _HomeState extends State<Home> {
   }
 
   getProductData() async {
-    await Auth_services.getProductdeal().then((onValue){
+    await Auth_services.getProduct().then((onValue){
       if(onValue['response_code'] == 200){
         if(mounted){
           setState(() {
@@ -61,12 +65,30 @@ class _HomeState extends State<Home> {
           });
         }
         productdeal = onValue['response_data'];
+        variant = onValue['response_data'][0]['variant'];
         print("product list is  === ${productdeal}");
       }
       else{
         isproductloading = true;
         return
         print(onValue['response_data']);
+      }
+    });
+  }
+
+  getCatogeryList() async {
+    await Auth_services.getCategory().then((value){
+      if(value['response_code'] == 200){
+        if(mounted){
+          setState(() {
+            iscategoryloading = false;
+          });
+        }
+         category= value['response_data'];
+         variant = value['response_data']['variant'];
+      }
+      else{
+        iscategoryloading = true;
       }
     });
   }
@@ -105,79 +127,102 @@ class _HomeState extends State<Home> {
                           height:height/2.1 ,
                           width: width/1.2,
                           child: isproductloading == true? GFLoader(type: GFLoaderType.ios,):
-                          ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: productdeal.map((deal) {
-                              print(deal);
-                              return Container(
-                                child: Card(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: height/4,
-                                        child: Image.network("${deal['imageUrl']}"),
-                                      ),
-                                      Container(
-                                        height: height/50,
-                                        width: width/1.2,
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.circular(10),
+                          ListView.builder(
+                            itemCount: productdeal.length,
+                            itemBuilder: (BuildContext context ,int index) {
+                              print(productdeal[index]['title']);
+                            return ListTile(
+                              title:
+                              Padding(
+                                padding: const EdgeInsets.only(left:5,right: 10),
+                                child: Container(
+                                  child: Card(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),                                          child: Container(
+                                          height: height/4,
+                                          child: Image.network("${productdeal[index]['imageUrl']}"),
                                         ),
-                                      ),
-                                      Container(
-                                        height: height/30,
-                                        width: width/1.2,
-                                        child: Row(
-                                          children: [
-                                            Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                                            Text("150",style: TextStyle(color: Colors.black)),
-                                            SizedBox(
-                                              width: width/4,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),                                          child: Container(
+                                          height: height/50,
+                                          width: width/1.4,
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            height: height/30,
+                                            width: width/1.2,
+                                            child: Row(
                                               children: [
-                                                Text("Available : ",style: TextStyle(color: Colors.black45)),
-                                                Text("300",style: TextStyle(color: Colors.black)),
+                                                Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                                                Text("150",style: TextStyle(color: Colors.black)),
+                                                SizedBox(
+                                                  width: width/4,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text("Available : ",style: TextStyle(color: Colors.black45)),
+                                                    Text("${variant[index]['productstock']}",style: TextStyle(color: Colors.black)),
+                                                  ],
+                                                ),
+
                                               ],
                                             ),
-
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                      Text("Category",style: TextStyle(color: Colors.black45)),
-                                      Text("${deal['category']}",style: TextStyle(color: Colors.black,fontSize: 18)),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: [
-                                            Text("${deal['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 80),
-                                              child: FlatButton(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(18.0),
-                                                      side: BorderSide(color: Colors.black12)
-                                                  ),
-                                                  height: 30,
-                                                  minWidth: 40,
-                                                  color: Colors.red,
-                                                  onPressed:()=>Splash_Screen ,
-                                                  child:
-                                                  Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: Row(
+                                            children: [
+                                              Text("Category : ",style: TextStyle(color: Colors.black45)),
+                                              Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
+                                            ],
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            children: [
+                                              Text("Price : ",style: TextStyle(color: Colors.black45)),
+                                              Text("${variant[index]["price"]}",style: TextStyle(color: Colors.black,fontSize: 15)),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  FlatButton(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(18.0),
+                                                          side: BorderSide(color: Colors.black12)
+                                                      ),
+                                                      height: 30,
+                                                      minWidth: 40,
+                                                      color: Colors.red,
+                                                      onPressed:()=>Splash_Screen ,
+                                                      child:
+                                                      Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              );
-                            }).toList(),
-
+                              ),
+                            );
+                            },
                           ),
                         ),
                       Row(
@@ -314,7 +359,7 @@ class _HomeState extends State<Home> {
       actions: <Widget>[
         new SizedBox(
           width: width/2.5,
-          height: height/20,
+          height: height/30,
           child: new RaisedButton(
             color: Colors.red,
             shape: RoundedRectangleBorder(
@@ -358,87 +403,6 @@ class _HomeState extends State<Home> {
     }
 
 
-    Widget Product(){
-      double width = MediaQuery.of(context).size.width;
-      double height = MediaQuery.of(context).size.height;
-      return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.red)
-        ),
-        height: height/2,
-        width: width/1.2,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
-          child: Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                Container(
-                  height: height/4,
-                  child: Image.asset("lib/assets/images/product2.png"),
-                ),
-                Container(
-                  height: height/50,
-                  width: width/1.2,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                Container(
-                  height: height/30,
-                  width: width/1.2,
-                  child: Row(
-                    children: [
-                      Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                      Text("150",style: TextStyle(color: Colors.black)),
-                      SizedBox(
-                        width: width/4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text("Available : ",style: TextStyle(color: Colors.black45)),
-                          Text("300",style: TextStyle(color: Colors.black)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Text("Category",style: TextStyle(color: Colors.black45)),
-                Text("Disposable Hand Wash Gel",style: TextStyle(color: Colors.black,fontSize: 18)),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Text("150 INR",style: TextStyle(color: Colors.black,fontSize: 15)),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 80),
-                        child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(color: Colors.black12)
-                            ),
-                            height: 30,
-                            minWidth: 40,
-                            color: Colors.red,
-                            onPressed:()=>Splash_Screen ,
-                            child:
-                            Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
     Widget ProductListButton() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -458,20 +422,18 @@ class _HomeState extends State<Home> {
       double width = MediaQuery.of(context).size.width;
       double height = MediaQuery.of(context).size.height;
     return Container(
-      height: height/3,
+      height: height/2,
       color: Colors.white,
       child: Container(
         child: GridView.count(
           crossAxisSpacing: 2,
           mainAxisSpacing: 0,
           crossAxisCount: 2,
-          children: List.generate(6, (index) {
-        return Container(
-          margin: EdgeInsets.all(0),
-          child: Image.asset("lib/assets/images/logo.png",fit: BoxFit.cover,),
-        );
-    }
-        ),
+          children: <Widget> [
+            iscategoryloading ==true ?GFLoader(type: GFLoaderType.ios,): category.map((cat){
+              return Image.network("${cat['imageUrl']}");
+            }).toList(),
+          ],
         ),
       ));
     }
