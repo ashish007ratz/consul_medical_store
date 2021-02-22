@@ -3,6 +3,7 @@ import 'package:consule_medical_store/Home/Profile.dart';
 import 'package:consule_medical_store/Products/Cart.dart';
 import 'package:consule_medical_store/Products/Favorte.dart';
 import 'package:consule_medical_store/Products/Product_List.dart';
+import 'package:consule_medical_store/Products/product_details.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
   bool isproductloading = true;
   List category;
   bool iscategoryloading = true;
+
 
    initState(){
     getBannerData();
@@ -85,7 +87,6 @@ class _HomeState extends State<Home> {
           });
         }
          category= value['response_data'];
-         variant = value['response_data']['variant'];
       }
       else{
         iscategoryloading = true;
@@ -124,104 +125,121 @@ class _HomeState extends State<Home> {
                           height: height / 30,
                         ),
                         Container(
-                          height:height/2.1 ,
+                          height:height/2 ,
                           width: width/1.2,
                           child: isproductloading == true? GFLoader(type: GFLoaderType.ios,):
                           ListView.builder(
+                            scrollDirection: Axis.horizontal,
                             itemCount: productdeal.length,
                             itemBuilder: (BuildContext context ,int index) {
                               print(productdeal[index]['title']);
-                            return ListTile(
-                              title:
-                              Padding(
-                                padding: const EdgeInsets.only(left:5,right: 10),
-                                child: Container(
-                                  child: Card(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),                                          child: Container(
-                                          height: height/4,
-                                          child: Image.network("${productdeal[index]['imageUrl']}"),
-                                        ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),                                          child: Container(
-                                          height: height/50,
-                                          width: width/1.4,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: height/30,
-                                            width: width/1.2,
-                                            child: Row(
-                                              children: [
-                                                Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                                                Text("150",style: TextStyle(color: Colors.black)),
-                                                SizedBox(
-                                                  width: width/4,
+                            return
+                               InkWell(
+                                  onTap: () {Navigator.push(context, MaterialPageRoute(builder:
+                                      (context)=>Product_Details(imageUrl: productdeal[index]['imageUrl'], about : productdeal[index]['description'],title :productdeal[index]['title'],category:productdeal[index]['category'], code : productdeal[index]['objectID'],productstock: productdeal[index]["variant"][0]['productstock'],price: productdeal[index]["variant"][0]['price'])));},
+                              child:
+                                  Container(
+                                  height: 100,
+                                  width: width/1.1,
+                                  child:
+                                  ListTile(
+                                    title:
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:5,right: 10),
+                                      child: Container(
+                                        width: width/2,
+                                        child: Card(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18))),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                                                child: Container(
+                                                height: height/4,
+                                                child: Image.network("${productdeal[index]['imageUrl']}"),
+                                              ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                                                child: Container(
+                                                height: height/50,
+                                                width: width/1.4,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                              ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  height: height/30,
+                                                  width: width/1.2,
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                                                      Text("150",style: TextStyle(color: Colors.black)),
+                                                      SizedBox(
+                                                        width: width/4,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Text("Available : ",style: TextStyle(color: Colors.black45)),
+                                                          Text("${productdeal[index]['variant'][0]['productstock']}",style: TextStyle(color: Colors.black)),
+                                                        ],
+                                                      ),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 8),
+                                                child: Row(
                                                   children: [
-                                                    Text("Available : ",style: TextStyle(color: Colors.black45)),
-                                                    Text("${variant[index]['productstock']}",style: TextStyle(color: Colors.black)),
+                                                    Text("Category : ",style: TextStyle(color: Colors.black45)),
+                                                    Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
                                                   ],
                                                 ),
-
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 8),
-                                          child: Row(
-                                            children: [
-                                              Text("Category : ",style: TextStyle(color: Colors.black45)),
-                                              Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 10),
-                                          child: Row(
-                                            children: [
-                                              Text("Price : ",style: TextStyle(color: Colors.black45)),
-                                              Text("${variant[index]["price"]}",style: TextStyle(color: Colors.black,fontSize: 15)),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: [
-                                                  FlatButton(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(18.0),
-                                                          side: BorderSide(color: Colors.black12)
-                                                      ),
-                                                      height: 30,
-                                                      minWidth: 40,
-                                                      color: Colors.red,
-                                                      onPressed:()=>Splash_Screen ,
-                                                      child:
-                                                      Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                                                ],
                                               ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Text("Price : ",style: TextStyle(color: Colors.black45)),
+                                                    Text("${productdeal[index]['variant'][0]['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        FlatButton(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(18.0),
+                                                                side: BorderSide(color: Colors.black12)
+                                                            ),
+                                                            height: 30,
+                                                            minWidth: 40,
+                                                            color: Colors.red,
+                                                            onPressed:()=>Splash_Screen ,
+                                                            child:
+                                                            Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
                                             ],
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+
                             },
                           ),
                         ),
