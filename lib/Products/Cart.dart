@@ -16,6 +16,7 @@ class _Shopping_CartState extends State<Shopping_Cart> {
   int _volume = 1;
   addCart() async {
     await Auth_services.getProduct().then((onValue){
+      print(onValue);
       if(onValue['response_code'] == 200){
         if(mounted){
           setState(() {
@@ -41,7 +42,8 @@ class _Shopping_CartState extends State<Shopping_Cart> {
         title: Center(child: Text("Check Out")),
       ),
       body: Container(
-        child: isproductloading == true? GFLoader(type: GFLoaderType.ios,) : ListView(
+        child:
+        ListView(
           children: [
         Container(
         child: Row(

@@ -1,9 +1,9 @@
 import 'file:///F:/New%20Folder%20(2)/flutter%20projects/consule_medical_store/lib/Products/Cart.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:consule_medical_store/Home/Address.dart';
 import 'package:consule_medical_store/Home/Home.dart';
 import 'package:consule_medical_store/Home/Profile.dart';
 import 'package:consule_medical_store/Products/Favorte.dart';
+import 'package:consule_medical_store/Products/product_details.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Auth/Splash.dart';
@@ -35,13 +35,12 @@ class _Product_ListState extends State<Product_List> {
             isproductloading = false;
           });
         }
-
         productdata = onValue['response_data'];
-        print("product list is  === ${productdata}");
       }
       else{
         isproductloading = true;
-        print(onValue['response_data']);
+        return
+          print(onValue['response_data']);
       }
     });
   }
@@ -60,78 +59,127 @@ class _Product_ListState extends State<Product_List> {
         child: Container(
           height: height,
           width: width/1.2,
-          child: isproductloading == true ? GFLoader(type: GFLoaderType.ios,):ListView(
-            children: productdata.map((url) {
-              print(url);
-              return Container(
-                child: Card(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: height/4,
-                      child: Image.network("${url['imageUrl']}"),
-                    ),
-                    Container(
-                      height: height/50,
-                      width: width/1.2,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    Container(
-                      height: height/30,
-                      width: width/1.2,
-                      child: Row(
-                        children: [
-                          Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                          Text("150",style: TextStyle(color: Colors.black)),
-                          SizedBox(
-                            width: width/4,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("Available : ",style: TextStyle(color: Colors.black45)),
-                              Text("300",style: TextStyle(color: Colors.black)),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Text("Category",style: TextStyle(color: Colors.black45)),
-                    Text("${url['cate']}",style: TextStyle(color: Colors.black,fontSize: 18)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Text("${url['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 80),
-                            child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(color: Colors.black12)
+          child: isproductloading == true? GFLoader(type: GFLoaderType.ios,):
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: productdata.length,
+            itemBuilder: (BuildContext context ,int index) {
+              print(productdata[index]['title']);
+              return
+                InkWell(
+                  onTap: () {Navigator.push(context, MaterialPageRoute(builder:
+                      (context)=>Product_Details(imageUrl: productdata[index]['imageUrl'], about : productdata[index]['description'],title :productdata[index]['title'],category:productdata[index]['category'], code : productdata[index]['objectID'],productstock: productdata[index]["variant"][0]['productstock'],price: productdata[index]["variant"][0]['price'])));},
+                  child:
+                  Container(
+                    width: width/1.1,
+                    child:
+                    ListTile(
+                      title:
+                      Padding(
+                        padding: const EdgeInsets.only(left:5,right: 10),
+                        child: Container(
+                          width: width/2,
+                          child: Card(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(child: Text("${productdata[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18))),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                                  child: Container(
+                                    height: height/4,
+                                    child: Image.network("${productdata[index]['imageUrl']}"),
+                                  ),
                                 ),
-                                height: 30,
-                                minWidth: 40,
-                                color: Colors.red,
-                                onPressed:()=>Splash_Screen ,
-                                child:
-                                Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                ),
-              );
-            }).toList(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                                  child: Container(
+                                    height: height/50,
+                                    width: width/1.4,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: height/30,
+                                    width: width/1.2,
+                                    child: Row(
+                                      children: [
+                                        Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                                        Text("150",style: TextStyle(color: Colors.black)),
+                                        SizedBox(
+                                          width: width/4,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Text("Available : ",style: TextStyle(color: Colors.black45)),
+                                            Text("${productdata[index]['variant'][0]['productstock']}",style: TextStyle(color: Colors.black)),
+                                          ],
+                                        ),
 
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      Text("Category : ",style: TextStyle(color: Colors.black45)),
+                                      Text("${productdata[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    children: [
+                                      Text("Price : ",style: TextStyle(color: Colors.black45)),
+                                      Text("${productdata[index]['variant'][0]['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          FlatButton(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(18.0),
+                                                  side: BorderSide(color: Colors.black12)
+                                              ),
+                                              height: 30,
+                                              minWidth: 40,
+                                              color: Colors.red,
+                                              onPressed:()=> setState(()=>FlatButton(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(18.0),
+                                                      side: BorderSide(color: Colors.black12)
+                                                  ),
+                                                  height: 30,
+                                                  minWidth: 40,
+                                                  color: Colors.red,
+                                                  onPressed: null, child: Text(" Go to Cart", style: TextStyle(color: Colors.white)))) ,
+                                              child:
+                                              Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+
+            },
           ),
         ),
       )

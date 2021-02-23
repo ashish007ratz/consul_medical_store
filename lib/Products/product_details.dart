@@ -8,6 +8,7 @@ class Product_Details extends StatefulWidget {
 
 
 class _Product_DetailsState extends State<Product_Details> {
+  int _volume = 1;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -17,6 +18,7 @@ class _Product_DetailsState extends State<Product_Details> {
         body: SingleChildScrollView(
           child: Center(
             child: Container(
+              height: height,
               width: width/1.3,
               child: Column(
                 children: [
@@ -30,8 +32,60 @@ class _Product_DetailsState extends State<Product_Details> {
                   Container( child:
                       Image.network(widget.imageUrl),
                   ),
+                  Container(
+                    child:Row(
+                      children: [
+                        SizedBox(
+                          height: height / 10,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.minimize,color: Colors.greenAccent),
+                          tooltip: '-',color: Colors.black,
+                          onPressed: () {
+                            setState(() {
+                              if(_volume != 1 )
+                              return{_volume -= 1};
+                              else{
+                                return _volume ==1;
+                              }
+                            });
+                          },
+                        ),
+                        Text('  $_volume'),
+                        IconButton(
+                          icon: Icon(Icons.add,color: Colors.greenAccent,),
+                          onPressed: () {
+                            setState(() {
+                              if(_volume == widget.productstock)
+                                {return AlertDialog(
+                                  title: Text("Please Check Available Stock"),
+                                  actions: [
+                                    FlatButton(onPressed: ()=> Navigator.pop(context), child: Text("ok"))
+                                  ],
+                                );}
+                              else {
+                                return  _volume += 1;
+                              }
+
+                            });
+                          },
+                        ),
+                        FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.black12),
+                            ),
+                            height: 30,
+                            minWidth: 40,
+                            color: Colors.red,
+                            onPressed: ()=> AlertDialog(
+                              title: Text("item added to Cart"),
+                            ), child: Text("+ Add to Cart", style: TextStyle(color: Colors.white))),
+                      ],
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8, top: 8),
                     child: Row(
                       children: [
                         RichText(text: TextSpan(
@@ -51,7 +105,7 @@ class _Product_DetailsState extends State<Product_Details> {
                               text: "Available : ",style: TextStyle(color: Colors.black45),
                             ) ),
                             RichText(text: TextSpan(
-                              text:"100",style: TextStyle(color: Colors.black),
+                              text:"${widget.productstock}",style: TextStyle(color: Colors.black),
                             ) ),
                           ],
                         ),
@@ -64,7 +118,7 @@ class _Product_DetailsState extends State<Product_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8, top: 8),
                     child: Row(
                       children: [
                         RichText(text: TextSpan(
@@ -77,7 +131,7 @@ class _Product_DetailsState extends State<Product_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8, top: 8),
                     child: Row(
                       children: [
                         RichText(text: TextSpan(
@@ -90,7 +144,7 @@ class _Product_DetailsState extends State<Product_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8, top: 8),
                     child: Row(
                       children: [
                         RichText(text: TextSpan(
@@ -103,7 +157,7 @@ class _Product_DetailsState extends State<Product_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8 , top: 8),
                     child: Row(
                       children: [
                         RichText(text: TextSpan(
@@ -115,7 +169,19 @@ class _Product_DetailsState extends State<Product_Details> {
                       ],
                     ),
                   ),
-
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8 , top: 8),
+                    child: Row(
+                      children: [
+                        RichText(text: TextSpan(
+                          text: "Total price : ",style: TextStyle(color: Colors.black45),
+                        ) ),
+                        RichText(text: TextSpan(
+                          text:"${widget.price*_volume}",style: TextStyle(color: Colors.black),
+                        ) ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

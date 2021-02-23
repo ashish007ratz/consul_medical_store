@@ -127,121 +127,7 @@ class _HomeState extends State<Home> {
                         Container(
                           height:height/2 ,
                           width: width/1.2,
-                          child: isproductloading == true? GFLoader(type: GFLoaderType.ios,):
-                          ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: productdeal.length,
-                            itemBuilder: (BuildContext context ,int index) {
-                              print(productdeal[index]['title']);
-                            return
-                               InkWell(
-                                  onTap: () {Navigator.push(context, MaterialPageRoute(builder:
-                                      (context)=>Product_Details(imageUrl: productdeal[index]['imageUrl'], about : productdeal[index]['description'],title :productdeal[index]['title'],category:productdeal[index]['category'], code : productdeal[index]['objectID'],productstock: productdeal[index]["variant"][0]['productstock'],price: productdeal[index]["variant"][0]['price'])));},
-                              child:
-                                  Container(
-                                  height: 100,
-                                  width: width/1.1,
-                                  child:
-                                  ListTile(
-                                    title:
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:5,right: 10),
-                                      child: Container(
-                                        width: width/2,
-                                        child: Card(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Center(child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18))),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
-                                                child: Container(
-                                                height: height/4,
-                                                child: Image.network("${productdeal[index]['imageUrl']}"),
-                                              ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
-                                                child: Container(
-                                                height: height/50,
-                                                width: width/1.4,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  height: height/30,
-                                                  width: width/1.2,
-                                                  child: Row(
-                                                    children: [
-                                                      Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                                                      Text("150",style: TextStyle(color: Colors.black)),
-                                                      SizedBox(
-                                                        width: width/4,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          Text("Available : ",style: TextStyle(color: Colors.black45)),
-                                                          Text("${productdeal[index]['variant'][0]['productstock']}",style: TextStyle(color: Colors.black)),
-                                                        ],
-                                                      ),
-
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 8),
-                                                child: Row(
-                                                  children: [
-                                                    Text("Category : ",style: TextStyle(color: Colors.black45)),
-                                                    Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 10),
-                                                child: Row(
-                                                  children: [
-                                                    Text("Price : ",style: TextStyle(color: Colors.black45)),
-                                                    Text("${productdeal[index]['variant'][0]['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
-                                                    Column(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                                      children: [
-                                                        FlatButton(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(18.0),
-                                                                side: BorderSide(color: Colors.black12)
-                                                            ),
-                                                            height: 30,
-                                                            minWidth: 40,
-                                                            color: Colors.red,
-                                                            onPressed:()=>Splash_Screen ,
-                                                            child:
-                                                            Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-
-                            },
-                          ),
+                          child: ProductDeal(),
                         ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -299,7 +185,7 @@ class _HomeState extends State<Home> {
             ),
             title: Text('Profile'),
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>Profile_Data()));
@@ -364,6 +250,131 @@ class _HomeState extends State<Home> {
     );
     }
 
+    Widget ProductDeal(){
+      double height = MediaQuery.of(context).size.height;
+      double width = MediaQuery.of(context).size.width;
+    return isproductloading == true? GFLoader(type: GFLoaderType.ios,):
+    ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: productdeal.length,
+      itemBuilder: (BuildContext context ,int index) {
+        print(productdeal[index]['title']);
+        return
+          InkWell(
+            onTap: () {Navigator.push(context, MaterialPageRoute(builder:
+                (context)=>Product_Details(imageUrl: productdeal[index]['imageUrl'], about : productdeal[index]['description'],title :productdeal[index]['title'],category:productdeal[index]['category'], code : productdeal[index]['objectID'],productstock: productdeal[index]["variant"][0]['productstock'],price: productdeal[index]["variant"][0]['price'])));},
+            child:
+            Container(
+              width: width/1.1,
+              child:
+              ListTile(
+                title:
+                Padding(
+                  padding: const EdgeInsets.only(left:5,right: 10),
+                  child: Container(
+                    width: width/2,
+                    child: Card(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18))),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                            child: Container(
+                              height: height/4,
+                              child: Image.network("${productdeal[index]['imageUrl']}"),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
+                            child: Container(
+                              height: height/50,
+                              width: width/1.4,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: height/30,
+                              width: width/1.2,
+                              child: Row(
+                                children: [
+                                  Text("Sold : ",style: TextStyle(color: Colors.black45)),
+                                  Text("150",style: TextStyle(color: Colors.black)),
+                                  SizedBox(
+                                    width: width/4,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text("Available : ",style: TextStyle(color: Colors.black45)),
+                                      Text("${productdeal[index]['variant'][0]['productstock']}",style: TextStyle(color: Colors.black)),
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Row(
+                              children: [
+                                Text("Category : ",style: TextStyle(color: Colors.black45)),
+                                Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              children: [
+                                Text("Price : ",style: TextStyle(color: Colors.black45)),
+                                Text("${productdeal[index]['variant'][0]['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(18.0),
+                                            side: BorderSide(color: Colors.black12)
+                                        ),
+                                        height: 30,
+                                        minWidth: 40,
+                                        color: Colors.red,
+                                        onPressed:()=> setState(()=>FlatButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(18.0),
+                                                side: BorderSide(color: Colors.black12)
+                                            ),
+                                            height: 30,
+                                            minWidth: 40,
+                                            onPressed: null, child: Text(" Go to Cart", style: TextStyle(color: Colors.white)))) ,
+                                        child:
+                                        Text("+ add to bag ", style: TextStyle(color: Colors.white))),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+      },
+    );
+    }
     Widget Appbar(){
       double height = MediaQuery.of(context).size.height;
       double width = MediaQuery.of(context).size.width;
@@ -375,21 +386,23 @@ class _HomeState extends State<Home> {
         width:100,
       ),
       actions: <Widget>[
-        new SizedBox(
-          width: width/2.5,
+        Container(
           height: height/30,
-          child: new RaisedButton(
-            color: Colors.red,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-            child: new Text('Upload Prescription',style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Upload_Prescription()));
-                  },
-          ),
+          child: InkWell( onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>Upload_Prescription()),
+            );
+          },
+              child: Container(
+            width:width/2.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.red,
+            ),
+            child: Center(child:
+            Text('Upload Prescription',style: TextStyle(color: Colors.white))),
+          )),
         ),
         FlatButton(
           height: 50,
