@@ -119,7 +119,7 @@ static Future<Map<String,dynamic>> getUserInfo() async {
       token = onValue;
     });
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    final response = await client.get(Constants.baseurl +"address",
+    final response = await client.get(Constants.baseurl +"categories",
         headers:{'content-Type':'application/json', 'Authorization':'bearer $token'});
     print(response.body);
     return json.decode(response.body);

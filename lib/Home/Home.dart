@@ -125,6 +125,9 @@ class _HomeState extends State<Home> {
                           height: height / 30,
                         ),
                         Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.red)
+                          ),
                           height:height/2 ,
                           width: width/1.2,
                           child: ProductDeal(),
@@ -278,7 +281,9 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18))),
+                          Center(child: Container(
+                            color: Colors.red,
+                              child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.white,fontSize: 18)))),
                           Padding(
                             padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
                             child: Container(
@@ -456,16 +461,16 @@ class _HomeState extends State<Home> {
       height: height/2,
       color: Colors.white,
       child: Container(
-        child: GridView.count(
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 0,
-          crossAxisCount: 2,
-          children: <Widget> [
-            iscategoryloading ==true ?GFLoader(type: GFLoaderType.ios,): category.map((cat){
-              return Image.network("${cat['imageUrl']}");
-            }).toList(),
-          ],
-        ),
+        // child: GridView.count(
+        //   crossAxisSpacing: 2,
+        //   mainAxisSpacing: 0,
+        //   crossAxisCount: 2,
+        //   children: <Widget> [
+        //     iscategoryloading == true ? GFLoader(type: GFLoaderType.ios,): category.map((cat){
+        //       return Image.network("${cat['imageUrl']}");
+        //     }).toList(),
+        //   ],
+        // ),
       ));
     }
 

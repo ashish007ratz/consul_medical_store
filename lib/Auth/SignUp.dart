@@ -225,11 +225,14 @@ class _SignUpState extends State<SignUp> {
       child: TextFormField(
         controller: passwordController,
         keyboardType: TextInputType.text,
-        validator: (String value) {
+        validator:
+            (String value) {
           if (value.isEmpty) {
             return "Enter Password";
-          } else if (value.length < 6) {
-            return "Please Enter Min 6 Digit Password";
+          } else if (!RegExp(
+              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+              .hasMatch(value)) {
+            return "Password must contain Uppercase Lowercase and on special Character";
           } else
             return null;
         },

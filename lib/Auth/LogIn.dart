@@ -5,6 +5,8 @@ import 'package:consule_medical_store/Services/Common/Common.dart';
 import 'package:flutter/material.dart';
 import 'package:consule_medical_store/Services/Auth_Service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
+
 
 class Login_Screen extends StatefulWidget {
   @override
@@ -27,6 +29,7 @@ class _Login_ScreenState extends State<Login_Screen> {
 
   bool _obscureText = true;
 
+  @override
 
   onLogin() async {
     SharedPreferences _sharepreference = await SharedPreferences.getInstance();
@@ -193,6 +196,7 @@ class _Login_ScreenState extends State<Login_Screen> {
     } else if (!RegExp(
     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
         .hasMatch(value)) {
+      Vibration.vibrate(duration: 1000);
     return "Please enter valid email";
     } else
     return null;
@@ -212,7 +216,8 @@ class _Login_ScreenState extends State<Login_Screen> {
           if (value.isEmpty) {
             return "Enter Password";
           } else if (value.length < 6) {
-            return "Please Enter Min 6 Digit Password";
+            Vibration.vibrate(duration: 1000);
+            return "Enter valid password";
           } else
             return null;
         },
