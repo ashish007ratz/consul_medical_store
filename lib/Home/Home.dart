@@ -21,6 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var _volume = 1;
   List bannerdata;
   bool isbannerloading = true;
   List productdeal;
@@ -125,11 +126,9 @@ class _HomeState extends State<Home> {
                           height: height / 30,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.red)
-                          ),
+
                           height:height/2 ,
-                          width: width/1.2,
+                          width: width,
                           child: ProductDeal(),
                         ),
                       Row(
@@ -268,109 +267,107 @@ class _HomeState extends State<Home> {
                 (context)=>Product_Details(imageUrl: productdeal[index]['imageUrl'], about : productdeal[index]['description'],title :productdeal[index]['title'],category:productdeal[index]['category'], code : productdeal[index]['objectID'],productstock: productdeal[index]["variant"][0]['productstock'],price: productdeal[index]["variant"][0]['price'])));},
             child:
             Container(
-              width: width/1.1,
+              width: width/1.2,
               child:
               ListTile(
                 title:
-                Padding(
-                  padding: const EdgeInsets.only(left:5,right: 10),
-                  child: Container(
-                    width: width/2,
-                    child: Card(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(child: Container(
-                            color: Colors.red,
-                              child: Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.white,fontSize: 18)))),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
-                            child: Container(
-                              height: height/4,
-                              child: Image.network("${productdeal[index]['imageUrl']}"),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 8),
-                            child: Container(
-                              height: height/50,
-                              width: width/1.4,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: height/30,
-                              width: width/1.2,
-                              child: Row(
-                                children: [
-                                  Text("Sold : ",style: TextStyle(color: Colors.black45)),
-                                  Text("150",style: TextStyle(color: Colors.black)),
-                                  SizedBox(
-                                    width: width/4,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text("Available : ",style: TextStyle(color: Colors.black45)),
-                                      Text("${productdeal[index]['variant'][0]['productstock']}",style: TextStyle(color: Colors.black)),
-                                    ],
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Row(
-                              children: [
-                                Text("Category : ",style: TextStyle(color: Colors.black45)),
-                                Text("${productdeal[index]['title']}",style: TextStyle(color: Colors.black,fontSize: 18)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                Text("Price : ",style: TextStyle(color: Colors.black45)),
-                                Text("${productdeal[index]['variant'][0]['price']}",style: TextStyle(color: Colors.black,fontSize: 15)),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(18.0),
-                                            side: BorderSide(color: Colors.black12)
-                                        ),
-                                        height: 30,
-                                        minWidth: 40,
-                                        color: Colors.red,
-                                        onPressed:()=> setState(()=>FlatButton(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18.0),
-                                                side: BorderSide(color: Colors.black12)
-                                            ),
-                                            height: 30,
-                                            minWidth: 40,
-                                            onPressed: null, child: Text(" Go to Cart", style: TextStyle(color: Colors.white)))) ,
-                                        child:
-                                        Text("+ add to bag ", style: TextStyle(color: Colors.white))),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                Container(
+                  height: height/2.3,
+                  width: width/2,
+                  decoration: BoxDecoration(
+                    boxShadow:[BoxShadow(
+                        color:Colors.black12
+                    )]
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: Image.network("${productdeal[index]['imageUrl']}"),
+                          height: height/4,
+                          width: width,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              )
                       ),
-                    ),
+                      FractionalTranslation(
+                        translation: Offset(0, -0.44),
+                        child: Container(
+                          width: 160,
+                          height: 40,
+                          child: Center(
+                              child: Text(
+                                "${productdeal[index]['title']}",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(width: 5, color: Colors.white)),
+                        ),
+                      ),
+                      FractionalTranslation(
+                        translation: Offset(0, -1),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width/11,
+                            ),
+                            Text(
+                              "Available  :",
+                              style: TextStyle(
+                                  color: Colors.black12,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            Text(
+                              "${productdeal[index]['variant'][0]['productstock']}",
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                            SizedBox(
+                              width: width/6.3,
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.minimize,color: Colors.greenAccent),
+                              tooltip: '-',color: Colors.redAccent,
+                              onPressed: () {
+                                setState(() {
+                                  if(_volume != 1 )
+                                    return{_volume -= 1};
+                                  else{
+                                    return _volume ==1;
+                                  }
+                                });
+                              },
+                            ),
+                            Text('  $_volume',style: TextStyle(color: Colors.black),),
+                            IconButton(
+                              icon: Icon(Icons.add,color: Colors.redAccent,),
+                              onPressed: () {
+                                setState(() {
+                                  if(_volume == productdeal[index]['variant'][0]['productstock'])
+                                  {return AlertDialog(
+                                    title: Text("Please Check Available Stock"),
+                                    actions: [
+                                      FlatButton(onPressed: ()=> Navigator.pop(context), child: Text("ok"))
+                                    ],
+                                  );}
+                                  else {
+                                    return  _volume += 1;
+                                  }
+
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
